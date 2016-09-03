@@ -1,9 +1,19 @@
-﻿@using BookStore.Web.Models   
-@model IEnumerable<Book>  
+﻿@model BookStore.Web.Models.PagingInfo 
+
 
 @{
     ViewBag.Title = "Books";
 }
 
-<h2>List</h2>
+@foreach(var book in Model.Books)
+{
+    <img src="@book.CoverUrl"/>
+    <h3>@book.Name</h3>
+    <p>@book.Author</p>
+    <p>@book.Price.ToString("c")</p>
+    <p>@book.Rating</p>
+    <p>@book.TotalReviews</p>
 
+}
+
+@Html.PageLinks(Model.CurPage, Model.TotalPages, x => Url.Action("List", new { page = x}))

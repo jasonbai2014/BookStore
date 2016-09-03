@@ -122,6 +122,27 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Images\0137081898.jpg" />
+    <Content Include="Images\0321356683.jpg" />
+    <Content Include="Images\0393264955.jpg" />
+    <Content Include="Images\0486411117.jpg" />
+    <Content Include="Images\0486440885.jpg" />
+    <Content Include="Images\0528015516.jpg" />
+    <Content Include="Images\0545621259.jpg" />
+    <Content Include="Images\0596517742.jpg" />
+    <Content Include="Images\0975361562.jpg" />
+    <Content Include="Images\1259360660.jpg" />
+    <Content Include="Images\1423167228.jpg" />
+    <Content Include="Images\1430264489.jpg" />
+    <Content Include="Images\1465415939.jpg" />
+    <Content Include="Images\1476728755.jpg" />
+    <Content Include="Images\1491914912.jpg" />
+    <Content Include="Images\1509301046.jpg" />
+    <Content Include="Images\161729134X.jpg" />
+    <Content Include="Images\1783553812.jpg" />
+    <Content Include="Images\1840226242.jpg" />
+    <Content Include="Images\1840226706.jpg" />
+    <Content Include="Images\1853260312.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -144,8 +165,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\PagingHelper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

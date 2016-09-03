@@ -27,6 +27,11 @@ namespace BookStore.Web.Models
         public String Name { get; set; }
 
         /// <summary>
+        /// This is category of this book
+        /// </summary>
+        public String Category { get; set; }
+
+        /// <summary>
         /// This is book description
         /// </summary>
         public String Description { get; set; }
@@ -44,7 +49,7 @@ namespace BookStore.Web.Models
         /// <summary>
         /// This is rating of the book
         /// </summary>
-        public float Rating { get; set; }
+        public double Rating { get; set; }
 
         /// <summary>
         /// This is number of reviews for the book

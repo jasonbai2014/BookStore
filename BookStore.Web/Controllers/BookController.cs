@@ -1,4 +1,5 @@
 ﻿using BookStore.Web.Abstract;
+using BookStore.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,28 @@ namespace BookStore.Web.Controllers
 {
     public class BookController : Controller
     {
-        IBookRepository bookRepository;
+        private IBookRepository bookRepository;
+
+        public const int BooksPerPage = 6;
 
         public BookController(IBookRepository bookRepository)
         {
             this.bookRepository = bookRepository;
         }
         
-        public ActionResult List()
+        public ViewResult List(int page = 1)
         {
-            return View(this.bookRepository.Books);
+            IEnumerable<Book> selectedBooks = this.bookRepository.Books.OrderBy(x => x.BookID).
+                Skip((page - 1) * BooksPerPage).Take(BooksPerPage);
+
+            PagingInfo pagingInfo = new PagingInfo
+            {
+                CurPage = page,
+                TotalPages = (int) Math.Ceiling(1.0 * this.bookRepository.Books.Count() / BooksPerPage),
+                Books = selectedBooks
+            };
+
+            return View(pagingInfo);
         }
     }
 }

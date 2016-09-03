@@ -3,18 +3,66 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet"/>
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link href="~/Content/Site.css" rel="stylesheet"/>
     <title>@ViewBag.Title</title>
 
 </head>
 <body>
+    <div class="container-fluid">
+        <!-- This is navigation bar -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" data-toggle="collapse" data-target="#nav-main">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button> 
+                    <a class="navbar-brand" href="~/">Bookstore</a>
+                </div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
+                <div id="nav-main" class="collapse navbar-collapse">
+                    <form class="navbar-form navbar-center">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Log in</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- This is main section -->
+        
+        <div class="row main-section">
+            <div class="col-sm-3">
+
+            </div>
+            
+
+            <div class="col-sm-8">
+                @RenderBody()
+            </div>
+        </div>
+
+        <!-- This is footer -->
+        <hr/>
         <footer>
             <p>&copy; @DateTime.Now.Year - Qing Bai</p>
         </footer>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>

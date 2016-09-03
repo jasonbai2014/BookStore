@@ -1,4 +1,6 @@
-﻿using Ninject;
+﻿using BookStore.Web.Abstract;
+using BookStore.Web.Concrete;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +54,7 @@ namespace BookStore.Web.Infrastructure
         /// </summary>
         private void AddBindings()
         {
-           
+            kernel.Bind<IBookRepository>().To<BookRepository>();
         }
     }
 }

@@ -188,6 +188,7 @@
     <Content Include="Views\Book\List.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\BookInfo.cshtml" />
+    <Content Include="Views\Book\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

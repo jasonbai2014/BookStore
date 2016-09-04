@@ -4,9 +4,18 @@
     ViewBag.Title = "Books";
 }
 
-@foreach(var book in Model.Books)
-{
-    @Html.Partial("BookInfo", book)
-}
+<div class="col-sm-3">
+    Going to add categories here
+</div>
 
-@Html.PageLinks(Model.CurPage, Model.TotalPages, x => Url.Action("List", new { page = x}))
+
+<div class="col-sm-8">
+    @foreach (var book in Model.Books)
+    {
+        @Html.Partial("BookInfo", book)
+    }
+
+    @Html.PageLinks(Model.CurPage, Model.TotalPages, x => Url.Action("List", new { page = x }))
+</div>
+
+

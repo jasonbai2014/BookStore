@@ -4,23 +4,23 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-3 col-xs-4">
-                <a href="#">
+                <a href="@Url.Action("Detail", "Book", new { bookId = Model.BookID})">
                     <img src="@Model.CoverUrl" class="img-responsive" />
                 </a>
             </div>
 
             <div class="col-sm-7 col-xs-8">
                 <div>
-                    <a href="#">
+                    <a href="@Url.Action("Detail", "Book", new { bookId = Model.BookID})">
                         <h4>@Model.Name</h4>
                     </a>
                     <span>by @Model.Author</span>
                 </div>
-                <div class="top-gap">
+                <div class="top-gap-sm">
                     <span class="pull-left price-label">@Model.Price.ToString("c")</span>
                     <span class="pull-right">
                         @Html.ShowRatingStars(@Model.Rating)
-                        <span>(@Model.TotalReviews reviews)</span>
+                        <span>@Model.TotalReviews reviews</span>
                     </span>
                 </div>
             </div>

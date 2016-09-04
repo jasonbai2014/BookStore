@@ -1,0 +1,46 @@
+﻿@model BookStore.Web.Models.Book
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div  class="col-sm-3">
+    <img class="img-responsive" src="@Model.CoverUrl"/>
+</div>
+
+<div class="col-sm-6">
+    <h2>@Model.Name <small>by @Model.Author</small></h2>
+    <div>
+        @Html.ShowRatingStars(@Model.Rating)
+        <span>@Model.TotalReviews reviews</span>
+    </div>
+    <hr />
+    <p>@Model.Description</p>
+</div>
+
+<div class="col-sm-3 top-gap-lg">
+    <div class="price-tag">
+        <span class="pull-left">Price</span>
+        <span class="pull-right price-label">@Model.Price.ToString("c")</span>
+    </div>
+    <div class="top-gap-lg top-padding">
+        <button type="button" class="btn btn-default btn-primary btn-block btn-lg">
+            <span class="glyphicon glyphicon-shopping-cart pull-left"></span> Add to Cart
+        </button>
+    </div>
+</div>
+
+<div class="col-xs-12 top-gap-sm">
+    <hr />
+    <h3>Product Details</h3>
+    <ul class="list-unstyled">
+        <li><span>Pages: </span>@Model.pages</li>
+        <li><span>Publisher: </span>@Model.Publisher</li>
+        <li><span>ISBN-10: </span>@Model.ISBN</li>
+    </ul>
+</div>
+
+<div class="col-xs-12 top-gap-sm">
+    <hr />
+    <h3>Customer Reviews</h3>
+</div>

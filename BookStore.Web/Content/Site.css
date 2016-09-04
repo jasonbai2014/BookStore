@@ -27,8 +27,23 @@ span.price-label {
 }
 
 /* Add a gap between two divs*/
-div.top-gap {
+div.top-gap-sm {
     margin-top: 1rem;
+}
+
+/* Add a gap between two divs*/
+div.top-gap-lg {
+    margin-top: 3rem;
+}
+
+/* Add a top padding to a div */
+div.top-padding {
+    padding-top: 3rem;
+}
+
+/* Set a style for price tag */
+div.price-tag {
+    font-size: 2rem;
 }
 
 /* Make search box in the middle of the nav bar */

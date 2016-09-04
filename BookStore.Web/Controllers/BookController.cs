@@ -8,17 +8,35 @@ using System.Web.Mvc;
 
 namespace BookStore.Web.Controllers
 {
+    /// <summary>
+    /// This is a class that handles operations for books
+    /// </summary>
     public class BookController : Controller
     {
+        /// <summary>
+        /// This is a book repository obtained from a database
+        /// </summary>
         private IBookRepository bookRepository;
 
+        /// <summary>
+        /// This is number of books shown per page
+        /// </summary>
         public const int BooksPerPage = 6;
 
+        /// <summary>
+        /// This is a constructor
+        /// </summary>
+        /// <param name="bookRepository">This is the book repository</param>
         public BookController(IBookRepository bookRepository)
         {
             this.bookRepository = bookRepository;
         }
         
+        /// <summary>
+        /// This action method shows books based on a page number
+        /// </summary>
+        /// <param name="page">This is the page number</param>
+        /// <returns>A view result to display books from the given page number</returns>
         public ViewResult List(int page = 1)
         {
             IEnumerable<Book> selectedBooks = this.bookRepository.Books.OrderBy(x => x.BookID).
@@ -32,6 +50,20 @@ namespace BookStore.Web.Controllers
             };
 
             return View(pagingInfo);
+        }
+
+        /// <summary>
+        /// This action method shows details of a book
+        /// </summary>
+        /// <param name="bookId">This is the ID of the required book</param>
+        /// <returns>A view result to show details of the book</returns>
+        public ViewResult Detail(int bookId)
+        {
+            Book selectedBook = this.bookRepository.Books.SingleOrDefault(x => x.BookID == bookId);
+
+            // TO-DO: remember to handle the case that the selectedBook is null
+
+            return View(selectedBook);
         }
     }
 }

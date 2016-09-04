@@ -2,22 +2,27 @@
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="col-sm-3 col-xs-4">
-            <a href="#">
-                <img src="@Model.CoverUrl" class="img-responsive" />
-            </a>
-        </div>
-
-        <div class="col-sm-7 col-xs-8">
-            <div>
+        <div class="row">
+            <div class="col-sm-3 col-xs-4">
                 <a href="#">
-                    <h4>@Model.Name</h4>
+                    <img src="@Model.CoverUrl" class="img-responsive" />
                 </a>
-                <span>by @Model.Author</span>
             </div>
-            <div class="top-gap">
-                <span class="pull-left price-label">@Model.Price.ToString("c")</span>
-                <span class="pull-right">@Model.Rating (@Model.TotalReviews reviews)</span>
+
+            <div class="col-sm-7 col-xs-8">
+                <div>
+                    <a href="#">
+                        <h4>@Model.Name</h4>
+                    </a>
+                    <span>by @Model.Author</span>
+                </div>
+                <div class="top-gap">
+                    <span class="pull-left price-label">@Model.Price.ToString("c")</span>
+                    <span class="pull-right">
+                        @Html.ShowRatingStars(@Model.Rating)
+                        <span>(@Model.TotalReviews reviews)</span>
+                    </span>
+                </div>
             </div>
         </div>
     </div>

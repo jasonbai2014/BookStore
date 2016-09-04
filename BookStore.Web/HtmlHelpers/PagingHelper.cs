@@ -18,7 +18,7 @@ namespace BookStore.Web.HtmlHelpers
         /// <param name="curPage">This is current page</param>
         /// <param name="totalPage">This is total pages</param>
         /// <param name="pageUrl">This is used to generate a link</param>
-        /// <returns></returns>
+        /// <returns>A String containing links for pages</returns>
         public static MvcHtmlString PageLinks(this HtmlHelper html, int curPage, int totalPage, Func<int, String> pageUrl)
         {
             TagBuilder navTag = new TagBuilder("nav");

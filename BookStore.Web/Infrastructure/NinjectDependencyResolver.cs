@@ -33,7 +33,7 @@ namespace BookStore.Web.Infrastructure
         /// Gets an object of the required type
         /// </summary>
         /// <param name="serviceType">This is the required type</param>
-        /// <returns></returns>
+        /// <returns>An object of the required type</returns>
         public object GetService(Type serviceType)
         {
             return kernel.TryGet(serviceType);
@@ -43,7 +43,7 @@ namespace BookStore.Web.Infrastructure
         /// Gets a list of objects of the required type
         /// </summary>
         /// <param name="serviceType">This is the required type</param>
-        /// <returns></returns>
+        /// <returns>A list of objects of the required type</returns>
         public IEnumerable<object> GetServices(Type serviceType)
         {
             return kernel.GetAll(serviceType);

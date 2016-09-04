@@ -64,5 +64,53 @@ namespace BookStore.UnitTests
                 @"<span class=""half glyphicon-star glyphicon""></span><span class=""empty glyphicon-star glyphicon""></span></span>",
                 result.ToString(), "Didn't generate correct rating stars label");
         }
+
+        [TestMethod]
+        public void Can_Show_Book_Details()
+        {
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
+            bookRepo.Setup(x => x.Books).Returns(new Book[]
+            {
+                new Book {BookID = 1, Name = "Book 1" },
+                new Book {BookID = 2, Name = "Book 2" },
+                new Book {BookID = 3, Name = "Book 3" },
+                new Book {BookID = 4, Name = "Book 4" },
+                new Book {BookID = 5, Name = "Book 5" },
+                new Book {BookID = 6, Name = "Book 6" },
+                new Book {BookID = 7, Name = "Book 7" },
+                new Book {BookID = 8, Name = "Book 8" },
+                new Book {BookID = 9, Name = "Book 9" }
+            });
+
+            BookController bookCtrl = new BookController(bookRepo.Object);
+            Book book1 = (Book)bookCtrl.Detail(3).Model;
+            Book book2 = (Book)bookCtrl.Detail(5).Model;
+            Book book3 = (Book)bookCtrl.Detail(9).Model;
+
+            Assert.AreEqual("Book 3", book1.Name, "Didn't get right book details");
+            Assert.AreEqual("Book 5", book2.Name, "Didn't get right book details");
+            Assert.AreEqual("Book 9", book3.Name, "Didn't get right book details");
+        }
+
+        [TestMethod]
+        public void Can_Generate_Error_For_Book_Details()
+        {
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
+            bookRepo.Setup(x => x.Books).Returns(new Book[]
+            {
+                new Book {BookID = 1, Name = "Book 1" },
+                new Book {BookID = 2, Name = "Book 2" },
+                new Book {BookID = 3, Name = "Book 3" },
+                new Book {BookID = 4, Name = "Book 4" },
+                new Book {BookID = 5, Name = "Book 5" },
+                new Book {BookID = 6, Name = "Book 6" },
+            });
+
+            BookController bookCtrl = new BookController(bookRepo.Object);
+            var model = bookCtrl.Detail(8);
+            Error error = model.ViewData.Model as Error;
+            Assert.IsNotNull(error, "Didn't get error instance");
+            Assert.AreEqual("Can't Find the Book", error.Message, "Didn't carry right error message");
+        }
     }
 }

@@ -176,6 +176,7 @@
     <Compile Include="HtmlHelpers\RatingStarsHelper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\Error.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -189,6 +190,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\BookInfo.cshtml" />
     <Content Include="Views\Book\Detail.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -10,7 +10,7 @@ namespace BookStore.Web.Abstract
     /// <summary>
     /// This interface defines a property required by a book repository
     /// </summary>
-    public interface IBookRepository
+    public interface IBookRepository : IDisposable
     {
         /// <summary>
         /// This gets a list of books

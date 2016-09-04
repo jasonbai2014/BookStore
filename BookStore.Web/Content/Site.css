@@ -15,6 +15,12 @@ textarea {
     max-width: 280px;
 }*/
 
+/* style for error message */
+.error {
+    color: red;
+    font-size: 3rem;
+}
+
 /* Add top margin to the main section of the home page */
 div.main-section {
     margin-top: 8rem;

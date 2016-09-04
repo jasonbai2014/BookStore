@@ -61,9 +61,27 @@ namespace BookStore.Web.Controllers
         {
             Book selectedBook = this.bookRepository.Books.SingleOrDefault(x => x.BookID == bookId);
 
-            // TO-DO: remember to handle the case that the selectedBook is null
+            if (selectedBook == null)
+            {
+                return View("error", new Error { Message = "Can't Find the Book" });
+            }
 
             return View(selectedBook);
+        }
+
+        /// <summary>
+        /// This release both managed and unmanaged resources
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; 
+        /// false to release only unmanaged resources</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                bookRepository.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

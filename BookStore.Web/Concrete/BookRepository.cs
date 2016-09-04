@@ -24,5 +24,13 @@ namespace BookStore.Web.Concrete
         {
             get { return dbContext.Books; }
         }
+
+        /// <summary>
+        /// Disposes the db after using it
+        /// </summary>
+        public void Dispose()
+        {
+            dbContext.Dispose();
+        }
     }
 }

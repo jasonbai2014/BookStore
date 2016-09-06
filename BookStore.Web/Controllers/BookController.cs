@@ -36,17 +36,21 @@ namespace BookStore.Web.Controllers
         /// This action method shows books based on a page number
         /// </summary>
         /// <param name="page">This is the page number</param>
+        /// <param name="category">This is current category of books shown on a page</param>
         /// <returns>A view result to display books from the given page number</returns>
-        public ViewResult List(int page = 1)
+        public ViewResult List(String category, int page = 1)
         {
-            IEnumerable<Book> selectedBooks = this.bookRepository.Books.OrderBy(x => x.BookID).
-                Skip((page - 1) * BooksPerPage).Take(BooksPerPage);
+            IEnumerable<Book> selectedBooks = this.bookRepository.Books
+                .Where(x => category == null || category == x.Category);
+            IEnumerable<Book> booksOnCurPage = selectedBooks.OrderBy(x => x.BookID)
+                .Skip((page - 1) * BooksPerPage).Take(BooksPerPage);
 
             PagingInfo pagingInfo = new PagingInfo
             {
                 CurPage = page,
-                TotalPages = (int) Math.Ceiling(1.0 * this.bookRepository.Books.Count() / BooksPerPage),
-                Books = selectedBooks
+                TotalPages = (int)Math.Ceiling(1.0 * selectedBooks.Count() / BooksPerPage),
+                CurCategory = category,
+                Books = booksOnCurPage
             };
 
             return View(pagingInfo);

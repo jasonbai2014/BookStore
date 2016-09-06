@@ -23,7 +23,7 @@ textarea {
 
 /* Add top margin to the main section of the home page */
 div.main-section {
-    margin-top: 8rem;
+    margin-top: 7rem;
 }
 
 /* Set a style for price label */
@@ -45,6 +45,11 @@ div.top-gap-lg {
 /* Add a top padding to a div */
 div.top-padding {
     padding-top: 3rem;
+}
+
+/* Add a bottom padding to a div */
+div.bottom-padding {
+    padding-bottom: 1rem;
 }
 
 /* Set a style for price tag */

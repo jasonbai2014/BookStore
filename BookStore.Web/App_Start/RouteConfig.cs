@@ -14,9 +14,21 @@ namespace BookStore.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "HomePage",
-                url: "{controller}/{action}/Page{page}",
-                defaults: new { controller = "Book", action = "List"}
+                name: "BookCategoryPage",
+                url: "{controller}/{category}/Page{page}",
+                defaults: new { controller = "Book", action = "List" }
+            );
+
+            routes.MapRoute(
+                name: "AllBookPage",
+                url: "{controller}/Page{page}",
+                defaults: new { controller = "Book", action = "List" }
+            );
+
+            routes.MapRoute(
+                name: "BookDetailPage",
+                url: "{controller}/{action}/Book{bookId}",
+                defaults: new { controller = "Book", action = "Detail" }
             );
 
             routes.MapRoute(

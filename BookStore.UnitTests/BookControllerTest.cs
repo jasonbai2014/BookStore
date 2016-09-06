@@ -12,7 +12,7 @@ using BookStore.Web.HtmlHelpers;
 namespace BookStore.UnitTests
 {
     [TestClass]
-    public class UnitTest1
+    public class BookControllerTest
     {
         [TestMethod]
         public void Can_Paginate()
@@ -32,7 +32,7 @@ namespace BookStore.UnitTests
             });
 
             BookController bookCtrl = new BookController(bookRepo.Object);
-            PagingInfo result = (PagingInfo) bookCtrl.List(2).Model;
+            PagingInfo result = (PagingInfo) bookCtrl.List(null, 2).Model;
             Book[] books = result.Books.ToArray();
 
             Assert.IsTrue(result.TotalPages == 2, "Didn't have correct total pages");
@@ -44,25 +44,31 @@ namespace BookStore.UnitTests
         }
 
         [TestMethod]
-        public void Can_Create_Page_Links()
+        public void Can_Show_Right_Category_Books()
         {
-            Func<int, String> linkCreator = x => "page" + x;
-            HtmlHelper helper = null;
-            MvcHtmlString result =  helper.PageLinks(2, 3, linkCreator);
-            Assert.AreEqual(@"<nav><ul class=""pagination""><li><a href=""page1"">1</a></li>" + 
-                @"<li class=""active""><a href=""page2"">2</a></li><li><a href=""page3"">3</a></li></ul></nav>", 
-                result.ToString(), "Didn't generate correct page links");
-        }
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
+            bookRepo.Setup(x => x.Books).Returns(new Book[]
+            {
+                new Book {BookID = 1, Name = "Book 1", Category = "Programming" },
+                new Book {BookID = 2, Name = "Book 2", Category = "History" },
+                new Book {BookID = 3, Name = "Book 3", Category = "History" },
+                new Book {BookID = 4, Name = "Book 4", Category = "Programming" },
+                new Book {BookID = 5, Name = "Book 5", Category = "Comics" },
+                new Book {BookID = 6, Name = "Book 6", Category = "Travel" },
+                new Book {BookID = 7, Name = "Book 7", Category = "Travel" },
+                new Book {BookID = 8, Name = "Book 8", Category = "Travel" },
+                new Book {BookID = 9, Name = "Book 9", Category = "Programming" }
+            });
 
-        [TestMethod]
-        public void Can_Generate_Rating_Stars()
-        {
-            HtmlHelper helper = null;
-            MvcHtmlString result = helper.ShowRatingStars(3.9);
-            Assert.AreEqual(@"<span title=""3.9 out of 5 stars""><span class=""glyphicon-star glyphicon""></span>" +
-                @"<span class=""glyphicon-star glyphicon""></span><span class=""glyphicon-star glyphicon""></span>" +
-                @"<span class=""half glyphicon-star glyphicon""></span><span class=""empty glyphicon-star glyphicon""></span></span>",
-                result.ToString(), "Didn't generate correct rating stars label");
+            BookController bookCtrl = new BookController(bookRepo.Object);
+            PagingInfo result = (PagingInfo)bookCtrl.List("Programming", 1).Model;
+            Book[] books = result.Books.ToArray();
+
+            Assert.AreEqual(1, result.TotalPages, "Didn't get right total pages");
+            Assert.AreEqual(3, books.Length, "Didn't get right amount of books");
+            Assert.AreEqual("Book 1", books[0].Name, "Didn't get the right type of book");
+            Assert.AreEqual("Book 4", books[1].Name, "Didn't get the right type of book");
+            Assert.AreEqual("Book 9", books[2].Name, "Didn't get the right type of book");
         }
 
         [TestMethod]

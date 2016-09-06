@@ -1,0 +1,36 @@
+﻿@model IEnumerable<String>
+
+<div class="visible-xs-block bottom-padding">
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+        Shop By categories <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li>@Html.ActionLink("Any categories", "List", "Book", null, new { @class = "text-center" })</li>
+
+        @foreach (var type in Model)
+        {
+           <li>@Html.RouteLink(type, new
+           {
+               controller = "Book",
+               action = "List",
+               category = type,
+               page = 1
+           }, new { @class = "text-center" })</li>
+        }
+    </ul>
+</div>
+
+<div class="list-group hidden-xs">
+    @Html.ActionLink("Any categories", "List", "Book", null, new { @class = "text-center list-group-item"})
+
+    @foreach(var type in Model)
+    {
+        @Html.RouteLink(type, new
+        {
+           controller = "Book",
+           action = "List",
+           category = type,
+           page = 1
+        }, new { @class = "text-center list-group-item" + (type == ViewBag.selectedCategory ? " active" : "") })
+    }
+</div>

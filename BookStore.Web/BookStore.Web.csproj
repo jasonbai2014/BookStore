@@ -169,6 +169,7 @@
     <Compile Include="Concrete\BookRepository.cs" />
     <Compile Include="Concrete\StoreDbContext.cs" />
     <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -191,6 +192,7 @@
     <Content Include="Views\Shared\BookInfo.cshtml" />
     <Content Include="Views\Book\Detail.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Nav\Menu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

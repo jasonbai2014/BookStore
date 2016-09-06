@@ -21,6 +21,11 @@ namespace BookStore.Web.Models
         public int TotalPages { get; set; }
 
         /// <summary>
+        /// This is current category of books shown on a page
+        /// </summary>
+        public String CurCategory { get; set; }
+
+        /// <summary>
         /// This is a list of books shown on current page
         /// </summary>
         public IEnumerable<Book> Books { get; set; }

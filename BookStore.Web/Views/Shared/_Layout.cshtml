@@ -24,16 +24,19 @@
                 </div>
 
                 <div id="nav-main" class="collapse navbar-collapse">
-                    <form class="navbar-form navbar-center">
+                    @using (Html.BeginForm("List", "Book", FormMethod.Get, new { @class = "navbar-form navbar-center" }))
+                    {
+                        
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search">
+                            <input type="text" name="searchText" value="" class="form-control" placeholder="Search">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit">
                                     <span class="glyphicon glyphicon-search"></span>
                                 </button>
                             </span>
                         </div>
-                    </form>
+                    }
+
 
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Log in</a></li>

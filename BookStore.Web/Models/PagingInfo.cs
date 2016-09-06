@@ -26,6 +26,11 @@ namespace BookStore.Web.Models
         public String CurCategory { get; set; }
 
         /// <summary>
+        /// This is a search text used to find books
+        /// </summary>
+        public String SearchText { get; set; }
+
+        /// <summary>
         /// This is a list of books shown on current page
         /// </summary>
         public IEnumerable<Book> Books { get; set; }

@@ -12,6 +12,7 @@ namespace BookStore.Web.App_Start
     using Ninject.Web.Common;
     using System.Web.Mvc;
     using Infrastructure;
+    using Models;
 
     public static class NinjectWebCommon 
     {
@@ -64,6 +65,7 @@ namespace BookStore.Web.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+            ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
         }        
     }
 }

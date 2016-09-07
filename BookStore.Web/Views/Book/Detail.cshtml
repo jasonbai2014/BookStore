@@ -18,15 +18,25 @@
     <p>@Model.Description</p>
 </div>
 
-<div class="col-sm-3 top-gap-lg">
+<div class="col-sm-3 top-gap-md">
     <div class="price-tag">
         <span class="pull-left">Price</span>
         <span class="pull-right price-label">@Model.Price.ToString("c")</span>
     </div>
-    <div class="top-gap-lg top-padding">
-        <button type="button" class="btn btn-default btn-primary btn-block btn-lg">
-            <span class="glyphicon glyphicon-shopping-cart pull-left"></span> Add to Cart
-        </button>
+    <div class="top-gap-md top-padding">
+        @using (Html.BeginForm("AddToCart", "Cart"))
+        {
+            <span>Qty:</span> @Html.DropDownList("quantity", new List<SelectListItem> { new SelectListItem
+            { Selected = true, Text = "1", Value = "1"}, new SelectListItem { Text = "2", Value = "2"},
+            new SelectListItem { Text = "3", Value = "3"}, new SelectListItem { Text = "4", Value = "4"},
+            new SelectListItem { Text = "5", Value = "5"}, new SelectListItem { Text = "6", Value = "6"}})
+            @Html.HiddenFor(x => x.BookID)
+            <div class="top-padding">
+                <button type="submit" class="btn btn-default btn-primary btn-block btn-lg">
+                    <span class="glyphicon glyphicon-shopping-cart pull-left"></span> Add to Cart
+                </button>
+            </div>
+        }
     </div>
 </div>
 

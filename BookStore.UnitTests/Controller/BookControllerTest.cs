@@ -152,6 +152,23 @@ namespace BookStore.UnitTests.Controller
         }
 
         [TestMethod]
+        public void Can_Redirect_Search_Page()
+        {
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
+            bookRepo.Setup(x => x.Books).Returns(new Book[]
+            {
+                new Book {BookID = 1, Name = "Book 1" }
+            });
+
+            BookController bookCtrl = new BookController(bookRepo.Object);
+            RedirectToRouteResult result = bookCtrl.Search("Programming", "C#");
+
+            Assert.AreEqual("List", result.RouteValues["action"], "Didn't get right action");
+            Assert.AreEqual("Programming", result.RouteValues["category"], "Didn't get right category");
+            Assert.AreEqual("C#", result.RouteValues["searchText"], "Didn't get right search text");
+        }
+
+        [TestMethod]
         public void Can_Generate_Error_For_Book_Details()
         {
             Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();

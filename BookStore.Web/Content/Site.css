@@ -38,8 +38,8 @@ div.top-gap-sm {
 }
 
 /* Add a gap between two divs*/
-div.top-gap-lg {
-    margin-top: 3rem;
+div.top-gap-md {
+    margin-top: 2rem;
 }
 
 /* Add a top padding to a div */

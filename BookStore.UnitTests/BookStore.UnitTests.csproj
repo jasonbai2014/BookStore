@@ -107,6 +107,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="Controller\CartControllerTest.cs" />
     <Compile Include="Helper\HtmlHelperTest.cs" />
     <Compile Include="Controller\BookControllerTest.cs" />
     <Compile Include="Model\CartTest.cs" />

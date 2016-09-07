@@ -71,8 +71,8 @@ namespace BookStore.Web.Controllers
         /// </summary>
         /// <param name="category">This is a book category</param>
         /// <param name="searchText">This is a piece of text used to search books</param>
-        /// <returns>A action result that redirects to the List action</returns>
-        public ActionResult Search(String category, String searchText)
+        /// <returns>A route result that redirects to the List action</returns>
+        public RedirectToRouteResult Search(String category, String searchText)
         {
             return RedirectToAction("List", new { category = category, searchText = searchText, page = 1});
         }

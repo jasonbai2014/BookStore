@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Web.Mvc;
 using BookStore.Web.HtmlHelpers;
 
-namespace BookStore.UnitTests
+namespace BookStore.UnitTests.Helper
 {
 
     [TestClass]

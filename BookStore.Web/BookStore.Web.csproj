@@ -177,6 +177,7 @@
     <Compile Include="HtmlHelpers\RatingStarsHelper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Error.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\Review.cs" />

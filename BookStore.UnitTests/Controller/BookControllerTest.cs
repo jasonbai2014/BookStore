@@ -9,7 +9,7 @@ using System.Linq;
 using System.Web.Mvc;
 using BookStore.Web.HtmlHelpers;
 
-namespace BookStore.UnitTests
+namespace BookStore.UnitTests.Controller
 {
     [TestClass]
     public class BookControllerTest
@@ -32,7 +32,7 @@ namespace BookStore.UnitTests
             });
 
             BookController bookCtrl = new BookController(bookRepo.Object);
-            PagingInfo result = (PagingInfo) ((ViewResult) bookCtrl.List(null, null, 2)).Model;
+            PagingInfo result = (PagingInfo) bookCtrl.List(null, null, 2).Model;
             Book[] books = result.Books.ToArray();
 
             Assert.IsTrue(result.TotalPages == 2, "Didn't have correct total pages");
@@ -61,7 +61,7 @@ namespace BookStore.UnitTests
             });
 
             BookController bookCtrl = new BookController(bookRepo.Object);
-            PagingInfo result = (PagingInfo) ((ViewResult) bookCtrl.List("Programming", null, 1)).Model;
+            PagingInfo result = (PagingInfo) bookCtrl.List("Programming", null, 1).Model;
             Book[] books = result.Books.ToArray();
 
             Assert.AreEqual(1, result.TotalPages, "Didn't get right total pages");
@@ -89,7 +89,7 @@ namespace BookStore.UnitTests
             });
 
             BookController bookCtrl = new BookController(bookRepo.Object);
-            PagingInfo result = (PagingInfo) ((ViewResult) bookCtrl.List(null, "java")).Model;
+            PagingInfo result = (PagingInfo) bookCtrl.List(null, "java").Model;
             Book[] books = result.Books.ToArray();
 
             Assert.AreEqual(3, books.Length, "Didn't get right amount of books");
@@ -116,7 +116,7 @@ namespace BookStore.UnitTests
             });
 
             BookController bookCtrl = new BookController(bookRepo.Object);
-            PagingInfo result = (PagingInfo) ((ViewResult) bookCtrl.List("Programming", "web")).Model;
+            PagingInfo result = (PagingInfo) bookCtrl.List("Programming", "web").Model;
             Book[] books = result.Books.ToArray();
 
             Assert.AreEqual(2, books.Length, "Didn't get right amount of books");

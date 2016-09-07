@@ -7,7 +7,7 @@ using BookStore.Web.Controllers;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BookStore.UnitTests
+namespace BookStore.UnitTests.Controller
 {
     [TestClass]
     public class NavControllerTest

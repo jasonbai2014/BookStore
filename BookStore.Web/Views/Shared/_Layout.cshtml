@@ -24,11 +24,11 @@
                 </div>
 
                 <div id="nav-main" class="collapse navbar-collapse">
-                    @using (Html.BeginForm("List", "Book", FormMethod.Get, new { @class = "navbar-form navbar-center" }))
+                    @using (Html.BeginForm("Search", "Book", FormMethod.Get, new { @class = "navbar-form navbar-center" }))
                     {
-                        
                         <div class="input-group">
                             <input type="text" name="searchText" value="" class="form-control" placeholder="Search">
+                            <input type="hidden" name="category" value="@Request.RequestContext.RouteData.Values["category"]"/>
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit">
                                     <span class="glyphicon glyphicon-search"></span>

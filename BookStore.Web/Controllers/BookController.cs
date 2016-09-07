@@ -2,6 +2,7 @@
 using BookStore.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -39,7 +40,7 @@ namespace BookStore.Web.Controllers
         /// <param name="category">This is current category of books shown on a page</param>
         /// <param name="searchText">This is a piece of text used to search books</param>
         /// <returns>A view result to display books from the given page number</returns>
-        public ActionResult List(String category, String searchText, int page = 1)
+        public ViewResult List(String category, String searchText, int page = 1)
         {
             IEnumerable<Book> selectedBooks = this.bookRepository.Books
                 .Where(x => category == null || category == x.Category);
@@ -48,12 +49,6 @@ namespace BookStore.Web.Controllers
             {
                 selectedBooks = selectedBooks.Where(x => x.Name.IndexOf(searchText, 
                     StringComparison.InvariantCultureIgnoreCase) >= 0);
-
-                // prevents the app from showing wrong page number
-                if (page > (int) Math.Ceiling(1.0 * selectedBooks.Count() / BooksPerPage))
-                {
-                    return RedirectToAction("List", new { category = category, searchText = searchText, page = 1 });
-                }
             }
 
             IEnumerable<Book> booksOnCurPage = selectedBooks.OrderBy(x => x.BookID)
@@ -69,6 +64,17 @@ namespace BookStore.Web.Controllers
             };
 
             return View(pagingInfo);
+        }
+
+        /// <summary>
+        /// This is used to initialize a search on books
+        /// </summary>
+        /// <param name="category">This is a book category</param>
+        /// <param name="searchText">This is a piece of text used to search books</param>
+        /// <returns>A action result that redirects to the List action</returns>
+        public ActionResult Search(String category, String searchText)
+        {
+            return RedirectToAction("List", new { category = category, searchText = searchText, page = 1});
         }
 
         /// <summary>

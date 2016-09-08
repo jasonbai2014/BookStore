@@ -1,0 +1,4 @@
+﻿@model BookStore.Web.Models.Cart
+<a href="@Url.Action("Summary", "Cart")">
+    <span class="glyphicon glyphicon-shopping-cart"></span><span class="badge">@Model.Items.Count</span> Cart
+</a>

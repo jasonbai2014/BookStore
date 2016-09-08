@@ -57,6 +57,23 @@ div.price-tag {
     font-size: 2rem;
 }
 
+/* Add a margin to the right side of the cart glyphicon */
+span.glyphicon-shopping-cart {
+    margin-right: 0.5rem;
+}
+
+/* a style for error message */
+.field-validation-error {
+    color: #e74949;
+    font-weight: bold;
+}
+
+/* a style to highlight error input */
+.input-validation-error {
+    background-color: #f6a8a8;
+    border: 1px solid red;
+}
+
 /* Make search box in the middle of the nav bar */
 @media (min-width: 768px) {
     .navbar-form.navbar-center {

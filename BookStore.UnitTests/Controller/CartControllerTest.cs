@@ -107,5 +107,50 @@ namespace BookStore.UnitTests.Controller
             RedirectToRouteResult result = cartCtrl.RemoveFromCart(cart, 1);
             Assert.AreEqual("Summary", result.RouteValues["action"], "Didn't redirect");
         }
+
+        [TestMethod]
+        public void Can_Checkout()
+        {
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
+            bookRepo.Setup(x => x.Books).Returns(new Book[]
+            {
+                new Book { BookID = 1, Name = "book 1", Price = 25.2M },
+                new Book { BookID = 2, Name = "book 2", Price = 50.6M },
+                new Book { BookID = 3, Name = "book 3", Price = 36.7M },
+            });
+
+            CartController cartCtrl = new CartController(bookRepo.Object);
+            Cart cart = new Cart();
+            cartCtrl.AddToCart(cart, 2, 1);
+            cartCtrl.AddToCart(cart, 1, 3);
+
+            ViewResult result = cartCtrl.CheckOut(cart, new ShoppingAddress());
+
+            Assert.AreEqual(true, result.ViewData.ModelState.IsValid, "Didn't check out items");
+            Assert.AreEqual("Completed", result.ViewName, "Didn't check out items");
+            Assert.AreEqual(0, cart.Items.Count, "Didn't check out items");
+        }
+
+        [TestMethod]
+        public void Cannot_Checkout_With_Invalid_Address()
+        {
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
+            bookRepo.Setup(x => x.Books).Returns(new Book[]
+            {
+                new Book { BookID = 1, Name = "book 1", Price = 25.2M },
+                new Book { BookID = 2, Name = "book 2", Price = 50.6M },
+                new Book { BookID = 3, Name = "book 3", Price = 36.7M },
+            });
+
+            CartController cartCtrl = new CartController(bookRepo.Object);
+            Cart cart = new Cart();
+            cartCtrl.AddToCart(cart, 2, 3);
+            cartCtrl.ModelState.AddModelError("error", "Invalid address");
+
+            ViewResult result = cartCtrl.CheckOut(cart, new ShoppingAddress());
+            Assert.AreEqual(false, result.ViewData.ModelState.IsValid, "Checked out with invalid address");
+            Assert.AreEqual(1, cart.Items.Count, "Checked out with invalid address");
+            Assert.AreEqual("", result.ViewName, "Checked out with invalid address");
+        }
     }
 }

@@ -39,6 +39,7 @@
 
 
                     <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.Action("Brief", "Cart")</li>
                         <li><a href="#">Log in</a></li>
                     </ul>
                 </div>
@@ -53,8 +54,10 @@
 
         <!-- This is footer -->
         <hr/>
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Qing Bai</p>
+        <footer class="row">
+            <div class="col-sm-10 col-sm-push-1">
+                <p>&copy; @DateTime.Now.Year - Qing Bai</p>
+            </div>
         </footer>
     </div>
 

@@ -1,0 +1,28 @@
+﻿@model BookStore.Web.Models.ShoppingAddress
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<div class="col-sm-4 col-sm-push-4">
+    @*Select a shipping address*@
+    <h2>Enter a new shipping address</h2>
+
+    @using (Html.BeginForm())
+    {
+        foreach (var property in ViewData.ModelMetadata.Properties)
+        {
+            <div class="form-group">
+                <label for="@property.PropertyName">@(property.DisplayName ?? property.PropertyName)</label>
+                @Html.TextBox(property.PropertyName, null, new { @class = "form-control"})   
+                @Html.ValidationMessage(property.PropertyName)
+            </div> 
+        }
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-default btn-primary">Complete order</button>
+        </div>
+    }
+</div>
+
+

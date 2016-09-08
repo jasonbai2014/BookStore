@@ -1,8 +1,62 @@
-﻿@model BookStore.Web.Models.Cart
+﻿@using BookStore.Web.Models
+@model BookStore.Web.Models.Cart
 
 @{
-    ViewBag.Title = "Summary";
+    ViewBag.Title = "Cart Summary";
 }
 
-<h2>Summary</h2>
+<div class="col-sm-8 col-sm-push-2">
+    <h2>Shopping Cart</h2>
+    @if (Model.Items.Count == 0)
+    {
+        <div class="top-gap-md">No items in the cart</div>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (LineItem item in Model.Items)
+                {
+                    <tr>
+                        <td class="text-center">@item.Book.Name</td>
+                        <td class="text-center">@item.Book.Price.ToString("c")</td>
+                        <td class="text-center">@item.Quantity</td>
+                        <td class="text-center">
+                            <span class="price-label">@((item.Book.Price * item.Quantity).ToString("c"))</span>
+                        </td>
+                        <td>
+                            <a>
+                                @Html.ActionLink("Remove", "RemoveFromCart", "Cart",
+                          new { bookId = item.Book.BookID }, new { @class = "btn btn-warning btn-xs" })
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right">Total (@Model.Items.Count Items):</td>
+                    <td class="text-center">
+                        <span class="price-label">@Model.CalculateTotal().ToString("c")</span>
+                    </td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="text-center">
+            @Html.ActionLink("Continue shopping", "List", "Book", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Proceed to checkout", "CheckOut", "Cart", null, new { @class = "btn btn-primary" })
+        </div>
+    }
+</div>
 

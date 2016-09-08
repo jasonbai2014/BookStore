@@ -31,7 +31,7 @@ namespace BookStore.Web.Controllers
         /// This shows a list of line items on a page
         /// </summary>
         /// <param name="cart">This is the cart containing the line items</param>
-        /// <returns>A view result to display a list of line items</returns>
+        /// <returns>A viewresult to display a list of line items</returns>
         public ViewResult Summary(Cart cart)
         {
             return View(cart);
@@ -43,7 +43,7 @@ namespace BookStore.Web.Controllers
         /// <param name="cart">This is the cart</param>
         /// <param name="bookId">This is id of the book</param>
         /// <param name="quantity">This is quantity of the book</param>
-        /// <returns>A route result that redirects to the summary action</returns>
+        /// <returns>A routeresult that redirects to the summary action</returns>
         public RedirectToRouteResult AddToCart(Cart cart, int bookId, int quantity)
         {
             Book book = bookRepository.Books.SingleOrDefault(x => x.BookID == bookId);
@@ -61,7 +61,7 @@ namespace BookStore.Web.Controllers
         /// </summary>
         /// <param name="cart">This is the cart</param>
         /// <param name="bookId">This is id of the book</param>
-        /// <returns>A route result that redirects to the summary action</returns>
+        /// <returns>A routeresult that redirects to the summary action</returns>
         public RedirectToRouteResult RemoveFromCart(Cart cart, int bookId)
         {
             Book book = bookRepository.Books.SingleOrDefault(x => x.BookID == bookId);
@@ -72,6 +72,39 @@ namespace BookStore.Web.Controllers
             }
 
             return RedirectToAction("Summary");
+        }
+
+        /// <summary>
+        /// This gives a short summary about the cart such as number of items in the cart
+        /// </summary>
+        /// <param name="cart">This is the shopping cart</param>
+        /// <returns>A partial view to show the summary</returns>
+        public PartialViewResult Brief(Cart cart)
+        {
+            return PartialView(cart);
+        }
+
+        /// <summary>
+        /// This allows a user to check out items in a cart
+        /// </summary>
+        /// <returns>A viewresult to show a form for shopping address</returns>
+        public ViewResult CheckOut()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ViewResult CheckOut(Cart cart, ShoppingAddress address)
+        {
+            if (ModelState.IsValid)
+            {
+                // TO-DO: need to add more codes to deal with order processing here
+                cart.clear();
+                return View("Completed");
+            } else
+            {
+                return View(address);
+            }
         }
 
         /// <summary>

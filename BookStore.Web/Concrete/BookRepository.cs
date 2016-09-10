@@ -1,6 +1,7 @@
 ﻿using BookStore.Web.Abstract;
 using BookStore.Web.Models;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -59,6 +60,15 @@ namespace BookStore.Web.Concrete
         public async override Task<Book> FindById(int id)
         {
             return await DbContext.Books.FindAsync(id);
+        }
+
+        /// <summary>
+        /// This gets all books in a repository
+        /// </summary>
+        /// <returns>A set of books</returns>
+        public DbSet<Book> GetBooks()
+        {
+            return DbContext.Books;
         }
 
         /// <summary>

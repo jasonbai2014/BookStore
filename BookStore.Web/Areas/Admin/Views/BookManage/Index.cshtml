@@ -1,0 +1,50 @@
+﻿@model BookStore.Web.Models.PagingInfo
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="panel panel-default col-sm-8 col-sm-push-2">
+    <div class="panel-body">
+        <div class="bottom-padding">
+            @Html.ActionLink("Add a new book", "create", null, new { @class = "btn btn-default btn-primary text-center" })
+        </div>
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var book in Model.Books)
+                {
+                    <tr class="text-center">
+                        <td>@book.BookID</td>
+                        <td>
+                            @Html.ActionLink(book.Name, "Edit", new { bookId = book.BookID})
+                        </td>
+                        <td>@book.Price.ToString("c")</td>
+                        <td>
+                            @using(Html.BeginForm("Delete", "BookManage"))
+                            {
+                                Html.Hidden("bookId", new { bookId = book.BookID });
+                                <input type="submit" value="Delete" class="btn btn-default btn-xs btn-warning"/>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        @Html.PageLinks(Model.CurPage, Model.TotalPages, x => Url.Action("Index",
+                        new { page = x }))
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div> 
+</div>

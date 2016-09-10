@@ -1,5 +1,6 @@
 ﻿using BookStore.Web.Models;
 using System;
+using System.Data.Entity;
 using System.Linq;
 
 namespace BookStore.Web.Abstract
@@ -22,5 +23,11 @@ namespace BookStore.Web.Abstract
         /// </summary>
         /// <returns>A list of book category name strings</returns>
         String[] GetCategories();
+
+        /// <summary>
+        /// This gets all books in a repository
+        /// </summary>
+        /// <returns>A set of books</returns>
+        DbSet<Book> GetBooks();
     }
 }

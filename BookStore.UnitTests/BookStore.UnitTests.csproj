@@ -116,6 +116,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="Areas\Admin\Controller\BookManagerControllerTest.cs" />
     <Compile Include="Controller\CartControllerTest.cs" />
     <Compile Include="Helper\HtmlHelperTest.cs" />
     <Compile Include="Controller\BookControllerTest.cs" />
@@ -135,6 +136,7 @@
       <Name>BookStore.Web</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

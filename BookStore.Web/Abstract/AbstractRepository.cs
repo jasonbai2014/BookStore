@@ -46,8 +46,7 @@ namespace BookStore.Web.Abstract
         /// This edits an entity in a repository
         /// </summary>
         /// <param name="entity">This is an edited entity</param>
-        /// <returns>The edited entity</returns>
-        public abstract TEntity Edit(TEntity entity);
+        public abstract void Edit(TEntity entity);
 
         /// <summary>
         /// This finds an entity by its id

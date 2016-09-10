@@ -1,0 +1,43 @@
+﻿@model BookStore.Web.Models.Book
+
+@{
+    ViewBag.Title = "Edit" + Model.Name;
+}
+
+<div class="col-sm-4 col-sm-push-4">
+    <h2>Edit @Model.Name</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(x => x.BookID);
+        @Html.HiddenFor(x => x.CoverUrl);
+        @Html.HiddenFor(x => x.Rating);
+        @Html.HiddenFor(x => x.TotalReviews);
+        foreach(var property in ViewData.ModelMetadata.Properties)
+        {
+            var name = property.PropertyName;
+
+            if (name != "BookID" && name != "CoverUrl" && name != "Rating" 
+                && name != "TotalReviews" && name != "Reviews")
+            {
+                <div class="form-group">
+                    <label for="@name">@name</label>
+                    @if(name == "Description")
+                    {
+                        @Html.TextArea(name, null, new { @class = "form-control", rows = 8})
+                    } else
+                    {
+                        @Html.TextBox(name, null, new { @class = "form-control"})
+                    }
+                    @Html.ValidationMessage(name)
+                </div>
+            }
+        }
+
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-default btn-primary">Save changes</button>
+            @Html.ActionLink("Cancel and return to list", "Index", null, new { @class = "btn btn-default btn-primary"})
+        </div>
+    }
+</div>
+

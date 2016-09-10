@@ -46,10 +46,9 @@ namespace BookStore.Web.Concrete
         /// This edits a book in a repository
         /// </summary>
         /// <param name="book">This is an edited book</param>
-        /// <returns>The edited book</returns>
-        public override Book Edit(Book book)
+        public override void Edit(Book book)
         {
-            return DbContext.Books.Attach(book);
+            DbContext.Entry(book).State = EntityState.Modified;
         }
 
         /// <summary>

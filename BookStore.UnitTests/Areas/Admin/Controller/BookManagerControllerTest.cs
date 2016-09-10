@@ -9,6 +9,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity;
 using BookStore.Web.Areas.Admin.Controllers;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace BookStore.UnitTests.Areas.Admin.Controller
 {
@@ -16,6 +17,8 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
     public class BookManagerControllerTest
     {
         private BookRepository bookRepo;
+
+        private Mock<StoreDbContext> mockContext;
 
         [TestInitialize]
         public void TestInitializer()
@@ -47,7 +50,7 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
             mockSet.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
-            Mock<StoreDbContext> mockContext = new Mock<StoreDbContext>();
+            mockContext = new Mock<StoreDbContext>();
             mockContext.Setup(x => x.Books).Returns(mockSet.Object);
 
             bookRepo = new BookRepository(mockContext.Object);
@@ -71,6 +74,29 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
             Assert.IsTrue(books.Length == 2, "3");
             Assert.AreEqual("Avengers", books[0].Name);
             Assert.AreEqual("1000 Places to See", books[1].Name);
+        }
+
+        [TestMethod]
+        public async Task Can_Edit_Book()
+        {
+            BookManageController ctrl = new BookManageController(bookRepo);
+            Book book = new Book { Name = "C# programming" };
+            ActionResult result = await ctrl.Edit(book);
+
+            mockContext.Verify(x => x.SaveChangesAsync(), Times.Once);
+            Assert.IsNotInstanceOfType(result, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public async Task Cannot_Edit_Book_With_Invalid_Data()
+        {
+            BookManageController ctrl = new BookManageController(bookRepo);
+            Book book = new Book { Name = "C# programming" };
+            ctrl.ModelState.AddModelError("error", "error message");
+            ActionResult result = await ctrl.Edit(book);
+
+            mockContext.Verify(x => x.SaveChangesAsync(), Times.Never);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
     }
 }

@@ -20,8 +20,7 @@ namespace BookStore.Web.Abstract
         /// This method edits an entity in the repository
         /// </summary>
         /// <param name="entity">This is a modified entity object</param>
-        /// <returns>The modified entity</returns>
-        TEntity Edit(TEntity entity);
+        void Edit(TEntity entity);
 
         /// <summary>
         /// This method removes an entity from the repository

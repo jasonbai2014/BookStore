@@ -1,11 +1,16 @@
 ﻿@model BookStore.Web.Models.PagingInfo
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Books";
 }
 
 <div class="panel panel-default col-sm-8 col-sm-push-2">
     <div class="panel-body">
+        <div>
+            @if (TempData["message"] != null) {
+                <div class="alert alert-success">@TempData["message"]</div>
+            }
+        </div>
         <div class="bottom-padding">
             @Html.ActionLink("Add a new book", "create", null, new { @class = "btn btn-default btn-primary text-center" })
         </div>

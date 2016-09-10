@@ -1,20 +1,26 @@
 ﻿using BookStore.Web.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookStore.Web.Abstract
 {
     /// <summary>
-    /// This interface defines a property required by a book repository
+    /// This is an interface for book repository
     /// </summary>
-    public interface IBookRepository : IDisposable
+    public interface IBookRepository : IRepository<Book>
     {
         /// <summary>
-        /// This gets a list of books
+        /// This method returns books by their cateogory, title, or both
         /// </summary>
-        IEnumerable<Book> Books { get; }
+        /// <param name="category">This is a category of books</param>
+        /// <param name="title">This is a piece of text in book titles</param>
+        /// <returns>An IQueryable<Book> that contains books matching the specified condition(s)</returns>  
+        IQueryable<Book> SearchBooks(String category, String title);
+
+        /// <summary>
+        /// This gets a list of categories from books in a book repository
+        /// </summary>
+        /// <returns>A list of book category name strings</returns>
+        String[] GetCategories();
     }
 }

@@ -1,192 +1,126 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using BookStore.Web.Abstract;
 using BookStore.Web.Models;
 using BookStore.Web.Controllers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using BookStore.Web.HtmlHelpers;
+using BookStore.Web.Concrete;
+using System.Data.Entity;
+using System.Threading.Tasks;
+using System.Data.Entity.Infrastructure;
+
 
 namespace BookStore.UnitTests.Controller
 {
     [TestClass]
     public class BookControllerTest
     {
-        [TestMethod]
-        public void Can_Paginate()
+        private BookRepository bookRepo;
+
+        [TestInitialize]
+        public void TestInitializer()
         {
-            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
-            bookRepo.Setup(x => x.Books).Returns(new Book[]
+            IQueryable<Book> data = new List<Book>()
             {
-                new Book {BookID = 1, Name = "Book 1" },
-                new Book {BookID = 2, Name = "Book 2" },
-                new Book {BookID = 3, Name = "Book 3" },
-                new Book {BookID = 4, Name = "Book 4" },
-                new Book {BookID = 5, Name = "Book 5" },
-                new Book {BookID = 6, Name = "Book 6" },
-                new Book {BookID = 7, Name = "Book 7" },
-                new Book {BookID = 8, Name = "Book 8" },
-                new Book {BookID = 9, Name = "Book 9" }
-            });
+                new Book {BookID = 1, Name = "SQL programming", Category = "Programming", Price = 12.1M},
+                new Book {BookID = 2, Name = "Star Wars", Category = "Comics", Price = 8.92M},
+                new Book {BookID = 3, Name = "America History", Category = "History", Price = 21.8M},
+                new Book {BookID = 4, Name = "JavaScript programming", Category = "Programming", Price = 32.5M},
+                new Book {BookID = 5, Name = "Iron Man", Category = "Comics", Price = 21.9M},
+                new Book {BookID = 6, Name = "Road Trip", Category = "Travel", Price = 18.0M},
+                new Book {BookID = 7, Name = "National Parks",Category = "Travel", Price = 10.5M},
+                new Book {BookID = 8, Name = "Web development", Category = "Programming", Price = 20.2M},
+                new Book {BookID = 9, Name = "Web API", Category = "Programming", Price = 52.5M}
+            }.AsQueryable();
 
-            BookController bookCtrl = new BookController(bookRepo.Object);
-            PagingInfo result = (PagingInfo) bookCtrl.List(null, null, 2).Model;
-            Book[] books = result.Books.ToArray();
+            Mock<DbSet<Book>> mockSet = new Mock<DbSet<Book>>();
+            mockSet.As<IDbAsyncEnumerable<Book>>().Setup(m => m.GetAsyncEnumerator())
+                .Returns(new TestDbAsyncEnumerator<Book>(data.GetEnumerator()));
 
-            Assert.IsTrue(result.TotalPages == 2, "Didn't have correct total pages");
-            Assert.IsTrue(result.CurPage == 2, "Didn't have correct current page");
-            Assert.IsTrue(books.Length == 3, "Didn't get right amount of books on current page");
-            Assert.AreEqual("Book 7", books[0].Name, "Didn't get correct book on current page");
-            Assert.AreEqual("Book 8", books[1].Name, "Didn't get correct book on current page");
-            Assert.AreEqual("Book 9", books[2].Name, "Didn't get correct book on current page");
+            mockSet.As<IQueryable<Book>>().Setup(m => m.Provider)
+                .Returns(new TestDbAsyncQueryProvider<Book>(data.Provider));
+
+            mockSet.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            Mock<StoreDbContext> mockContext = new Mock<StoreDbContext>();
+            mockContext.Setup(x => x.Books).Returns(mockSet.Object);
+
+            bookRepo = new BookRepository(mockContext.Object);
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            bookRepo = null;
         }
 
         [TestMethod]
-        public void Can_Show_Right_Category_Books()
+        public async Task Can_Paginate()
         {
-            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
-            bookRepo.Setup(x => x.Books).Returns(new Book[]
-            {
-                new Book {BookID = 1, Name = "Book 1", Category = "Programming" },
-                new Book {BookID = 2, Name = "Book 2", Category = "History" },
-                new Book {BookID = 3, Name = "Book 3", Category = "History" },
-                new Book {BookID = 4, Name = "Book 4", Category = "Programming" },
-                new Book {BookID = 5, Name = "Book 5", Category = "Comics" },
-                new Book {BookID = 6, Name = "Book 6", Category = "Travel" },
-                new Book {BookID = 7, Name = "Book 7", Category = "Travel" },
-                new Book {BookID = 8, Name = "Book 8", Category = "Travel" },
-                new Book {BookID = 9, Name = "Book 9", Category = "Programming" }
-            });
-
-            BookController bookCtrl = new BookController(bookRepo.Object);
-            PagingInfo result = (PagingInfo) bookCtrl.List("Programming", null, 1).Model;
+            BookController bookCtrl = new BookController(bookRepo);
+            PagingInfo result = (PagingInfo)(await bookCtrl.List(null, null, 2)).Model;
             Book[] books = result.Books.ToArray();
 
-            Assert.AreEqual(1, result.TotalPages, "Didn't get right total pages");
-            Assert.AreEqual(3, books.Length, "Didn't get right amount of books");
-            Assert.AreEqual("Book 1", books[0].Name, "Didn't get the right type of book");
-            Assert.AreEqual("Book 4", books[1].Name, "Didn't get the right type of book");
-            Assert.AreEqual("Book 9", books[2].Name, "Didn't get the right type of book");
+            Assert.IsTrue(result.TotalPages == 2);
+            Assert.IsTrue(result.CurPage == 2);
+            Assert.IsTrue(books.Length == 3);
+            Assert.AreEqual("National Parks", books[0].Name);
+            Assert.AreEqual("Web development", books[1].Name);
+            Assert.AreEqual("Web API", books[2].Name);
         }
 
         [TestMethod]
-        public void Can_Search_Books()
+        public async Task Can_Show_Right_Category_Books()
         {
-            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
-            bookRepo.Setup(x => x.Books).Returns(new Book[]
-            {
-                new Book {BookID = 1, Name = "SQL programming"},
-                new Book {BookID = 2, Name = "Intro to C#"},
-                new Book {BookID = 3, Name = "Intro to Java"},
-                new Book {BookID = 4, Name = "JavaScript programming"},
-                new Book {BookID = 5, Name = "C# ASP.NET"},
-                new Book {BookID = 6, Name = "Java programming"},
-                new Book {BookID = 7, Name = "OOP Design"},
-                new Book {BookID = 8, Name = "Web development"},
-                new Book {BookID = 9, Name = "Web API"}
-            });
-
-            BookController bookCtrl = new BookController(bookRepo.Object);
-            PagingInfo result = (PagingInfo) bookCtrl.List(null, "java").Model;
+            BookController bookCtrl = new BookController(bookRepo);
+            PagingInfo result = (PagingInfo)(await bookCtrl.List("Programming", null, 1)).Model;
             Book[] books = result.Books.ToArray();
 
-            Assert.AreEqual(3, books.Length, "Didn't get right amount of books");
-            Assert.AreEqual("Intro to Java", books[0].Name, "Didn't get correct book");
-            Assert.AreEqual("JavaScript programming", books[1].Name, "Didn't get correct book");
-            Assert.AreEqual("Java programming", books[2].Name, "Didn't get correct book");
+            Assert.AreEqual(1, result.TotalPages);
+            Assert.AreEqual(4, books.Length);
+            Assert.AreEqual("SQL programming", books[0].Name);
+            Assert.AreEqual("JavaScript programming", books[1].Name);
+            Assert.AreEqual("Web development", books[2].Name);
+            Assert.AreEqual("Web API", books[3].Name);
         }
 
         [TestMethod]
-        public void Can_Search_Books_With_Category()
+        public async Task Can_Search_Books()
         {
-            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
-            bookRepo.Setup(x => x.Books).Returns(new Book[]
-            {
-                new Book {BookID = 1, Name = "SQL programming", Category = "Programming"},
-                new Book {BookID = 2, Name = "Star Wars", Category = "Comics"},
-                new Book {BookID = 3, Name = "America History", Category = "History"},
-                new Book {BookID = 4, Name = "JavaScript programming", Category = "Programming"},
-                new Book {BookID = 5, Name = "Iron Man", Category = "Comics"},
-                new Book {BookID = 6, Name = "Road Trip", Category = "Travel"},
-                new Book {BookID = 7, Name = "National Parks",Category = "Travel"},
-                new Book {BookID = 8, Name = "Web development", Category = "Programming"},
-                new Book {BookID = 9, Name = "Web API", Category = "Programming"}
-            });
-
-            BookController bookCtrl = new BookController(bookRepo.Object);
-            PagingInfo result = (PagingInfo) bookCtrl.List("Programming", "web").Model;
+            BookController bookCtrl = new BookController(bookRepo);
+            PagingInfo result = (PagingInfo)(await bookCtrl.List(null, "programming")).Model;
             Book[] books = result.Books.ToArray();
 
-            Assert.AreEqual(2, books.Length, "Didn't get right amount of books");
-            Assert.AreEqual("Web development", books[0].Name, "Didn't get correct book");
-            Assert.AreEqual("Web API", books[1].Name, "Didn't get correct book");
+            Assert.AreEqual(2, books.Length);
+            Assert.AreEqual("SQL programming", books[0].Name);
+            Assert.AreEqual("JavaScript programming", books[1].Name);
         }
 
         [TestMethod]
-        public void Can_Show_Book_Details()
+        public async Task Can_Search_Books_With_Category()
         {
-            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
-            bookRepo.Setup(x => x.Books).Returns(new Book[]
-            {
-                new Book {BookID = 1, Name = "Book 1" },
-                new Book {BookID = 2, Name = "Book 2" },
-                new Book {BookID = 3, Name = "Book 3" },
-                new Book {BookID = 4, Name = "Book 4" },
-                new Book {BookID = 5, Name = "Book 5" },
-                new Book {BookID = 6, Name = "Book 6" },
-                new Book {BookID = 7, Name = "Book 7" },
-                new Book {BookID = 8, Name = "Book 8" },
-                new Book {BookID = 9, Name = "Book 9" }
-            });
+            BookController bookCtrl = new BookController(bookRepo);
+            PagingInfo result = (PagingInfo)(await bookCtrl.List("Programming", "web")).Model;
+            Book[] books = result.Books.ToArray();
 
-            BookController bookCtrl = new BookController(bookRepo.Object);
-            Book book1 = (Book)bookCtrl.Detail(3).Model;
-            Book book2 = (Book)bookCtrl.Detail(5).Model;
-            Book book3 = (Book)bookCtrl.Detail(9).Model;
-
-            Assert.AreEqual("Book 3", book1.Name, "Didn't get right book details");
-            Assert.AreEqual("Book 5", book2.Name, "Didn't get right book details");
-            Assert.AreEqual("Book 9", book3.Name, "Didn't get right book details");
+            Assert.AreEqual(2, books.Length);
+            Assert.AreEqual("Web development", books[0].Name);
+            Assert.AreEqual("Web API", books[1].Name);
         }
 
         [TestMethod]
         public void Can_Redirect_Search_Page()
         {
-            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
-            bookRepo.Setup(x => x.Books).Returns(new Book[]
-            {
-                new Book {BookID = 1, Name = "Book 1" }
-            });
+            BookController bookCtrl = new BookController(bookRepo);
+            RedirectToRouteResult result = bookCtrl.Search("Comics", "star");
 
-            BookController bookCtrl = new BookController(bookRepo.Object);
-            RedirectToRouteResult result = bookCtrl.Search("Programming", "C#");
-
-            Assert.AreEqual("List", result.RouteValues["action"], "Didn't get right action");
-            Assert.AreEqual("Programming", result.RouteValues["category"], "Didn't get right category");
-            Assert.AreEqual("C#", result.RouteValues["searchText"], "Didn't get right search text");
-        }
-
-        [TestMethod]
-        public void Can_Generate_Error_For_Book_Details()
-        {
-            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
-            bookRepo.Setup(x => x.Books).Returns(new Book[]
-            {
-                new Book {BookID = 1, Name = "Book 1" },
-                new Book {BookID = 2, Name = "Book 2" },
-                new Book {BookID = 3, Name = "Book 3" },
-                new Book {BookID = 4, Name = "Book 4" },
-                new Book {BookID = 5, Name = "Book 5" },
-                new Book {BookID = 6, Name = "Book 6" },
-            });
-
-            BookController bookCtrl = new BookController(bookRepo.Object);
-            var model = bookCtrl.Detail(8);
-            Error error = model.ViewData.Model as Error;
-            Assert.IsNotNull(error, "Didn't get error instance");
-            Assert.AreEqual("Can't Find the Book", error.Message, "Didn't carry right error message");
+            Assert.AreEqual("List", result.RouteValues["action"]);
+            Assert.AreEqual("Comics", result.RouteValues["category"]);
+            Assert.AreEqual("star", result.RouteValues["searchText"]);
         }
     }
 }

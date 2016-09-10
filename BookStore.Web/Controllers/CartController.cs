@@ -2,7 +2,9 @@
 using BookStore.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -44,9 +46,9 @@ namespace BookStore.Web.Controllers
         /// <param name="bookId">This is id of the book</param>
         /// <param name="quantity">This is quantity of the book</param>
         /// <returns>A routeresult that redirects to the summary action</returns>
-        public RedirectToRouteResult AddToCart(Cart cart, int bookId, int quantity)
+        public async Task<RedirectToRouteResult> AddToCart(Cart cart, int bookId, int quantity)
         {
-            Book book = bookRepository.Books.SingleOrDefault(x => x.BookID == bookId);
+            Book book = await bookRepository.FindById(bookId);
 
             if (book != null)
             {
@@ -62,9 +64,9 @@ namespace BookStore.Web.Controllers
         /// <param name="cart">This is the cart</param>
         /// <param name="bookId">This is id of the book</param>
         /// <returns>A routeresult that redirects to the summary action</returns>
-        public RedirectToRouteResult RemoveFromCart(Cart cart, int bookId)
+        public async Task<RedirectToRouteResult> RemoveFromCart(Cart cart, int bookId)
         {
-            Book book = bookRepository.Books.SingleOrDefault(x => x.BookID == bookId);
+            Book book = await bookRepository.FindById(bookId);
 
             if (book != null)
             {
@@ -101,7 +103,8 @@ namespace BookStore.Web.Controllers
                 // TO-DO: need to add more codes to deal with order processing here
                 cart.clear();
                 return View("Completed");
-            } else
+            }
+            else
             {
                 return View(address);
             }

@@ -23,11 +23,11 @@ namespace BookStore.Web.Concrete
         /// <summary>
         /// This returns a set of books from a database for this bookstore
         /// </summary>
-        public DbSet<Book> Books { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
 
         /// <summary>
         /// This returns a set of reviews for the books 
         /// </summary>
-        public DbSet<Review> Reviews { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
     }
 }

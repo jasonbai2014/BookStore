@@ -54,6 +54,7 @@ namespace BookStore.Web.Infrastructure
         /// </summary>
         private void AddBindings()
         {
+            kernel.Bind<StoreDbContext>().ToSelf();
             kernel.Bind<IBookRepository>().To<BookRepository>();
         }
     }

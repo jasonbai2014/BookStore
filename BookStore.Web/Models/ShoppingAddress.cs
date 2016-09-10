@@ -47,6 +47,7 @@ namespace BookStore.Web.Models
         /// This is zip code
         /// </summary>
         [Required(ErrorMessage = "Please enter a zip code")]
+        [RegularExpression("^[0-9]{5}(?:-[0-9]{4})?$", ErrorMessage = "Please enter a valid zip code")] // US postal format
         public String Zip { get; set; }
 
         /// <summary>

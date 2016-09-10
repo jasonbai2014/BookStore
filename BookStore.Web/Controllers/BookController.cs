@@ -2,8 +2,10 @@
 using BookStore.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -32,7 +34,7 @@ namespace BookStore.Web.Controllers
         {
             this.bookRepository = bookRepository;
         }
-        
+
         /// <summary>
         /// This action method shows books based on a page number
         /// </summary>
@@ -40,24 +42,16 @@ namespace BookStore.Web.Controllers
         /// <param name="category">This is current category of books shown on a page</param>
         /// <param name="searchText">This is a piece of text used to search books</param>
         /// <returns>A view result to display books from the given page number</returns>
-        public ViewResult List(String category, String searchText, int page = 1)
+        public async Task<ViewResult> List(String category, String searchText, int page = 1)
         {
-            IEnumerable<Book> selectedBooks = this.bookRepository.Books
-                .Where(x => category == null || category == x.Category);
-
-            if (!String.IsNullOrEmpty(searchText))
-            {
-                selectedBooks = selectedBooks.Where(x => x.Name.IndexOf(searchText, 
-                    StringComparison.InvariantCultureIgnoreCase) >= 0);
-            }
-
-            IEnumerable<Book> booksOnCurPage = selectedBooks.OrderBy(x => x.BookID)
-                .Skip((page - 1) * BooksPerPage).Take(BooksPerPage);
+            IQueryable<Book> books = this.bookRepository.SearchBooks(category, searchText);
+            int bookNum = await books.CountAsync();
+            IEnumerable<Book> booksOnCurPage = await books.Skip((page - 1) * BooksPerPage).Take(BooksPerPage).ToListAsync();
 
             PagingInfo pagingInfo = new PagingInfo
             {
                 CurPage = page,
-                TotalPages = (int)Math.Ceiling(1.0 * selectedBooks.Count() / BooksPerPage),
+                TotalPages = (int)Math.Ceiling(1.0 * bookNum / BooksPerPage),
                 CurCategory = category,
                 SearchText = searchText,
                 Books = booksOnCurPage
@@ -74,7 +68,7 @@ namespace BookStore.Web.Controllers
         /// <returns>A route result that redirects to the List action</returns>
         public RedirectToRouteResult Search(String category, String searchText)
         {
-            return RedirectToAction("List", new { category = category, searchText = searchText, page = 1});
+            return RedirectToAction("List", new { category = category, searchText = searchText, page = 1 });
         }
 
         /// <summary>
@@ -82,9 +76,9 @@ namespace BookStore.Web.Controllers
         /// </summary>
         /// <param name="bookId">This is the ID of the required book</param>
         /// <returns>A view result to show details of the book</returns>
-        public ViewResult Detail(int bookId)
+        public async Task<ViewResult> Detail(int bookId)
         {
-            Book selectedBook = this.bookRepository.Books.SingleOrDefault(x => x.BookID == bookId);
+            Book selectedBook = await this.bookRepository.FindById(bookId);
 
             if (selectedBook == null)
             {

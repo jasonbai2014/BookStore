@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -33,7 +34,7 @@ namespace BookStore.Web.Controllers
         /// <returns>A partial view for the menu</returns>
         public PartialViewResult Menu(String category)
         {
-            String[] categories = bookRepository.Books.Select(x => x.Category).Distinct().OrderBy(x => x).ToArray();
+            String[] categories = bookRepository.GetCategories();
             ViewBag.selectedCategory = category;
             return PartialView(categories);
         }

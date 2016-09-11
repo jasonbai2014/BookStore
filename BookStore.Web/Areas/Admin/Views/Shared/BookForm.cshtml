@@ -1,0 +1,27 @@
+﻿@model BookStore.Web.Models.Book
+
+@Html.HiddenFor(x => x.BookID)
+@Html.HiddenFor(x => x.CoverUrl)
+@Html.HiddenFor(x => x.Rating)
+@Html.HiddenFor(x => x.TotalReviews)
+@foreach(var property in ViewData.ModelMetadata.Properties)
+{
+    var name = property.PropertyName;
+
+    if (name != "BookID" && name != "CoverUrl" && name != "Rating"
+        && name != "TotalReviews" && name != "Reviews")
+    {
+        <div class="form-group">
+            <label for="@name">@name</label>
+            @if (name == "Description")
+            {
+                @Html.TextArea(name, null, new { @class = "form-control", rows = 8 })
+            }
+            else
+            {
+                @Html.TextBox(name, null, new { @class = "form-control" })
+            }
+            @Html.ValidationMessage(name)
+        </div>
+    }
+}

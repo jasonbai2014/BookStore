@@ -3,6 +3,7 @@ using BookStore.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -82,6 +83,66 @@ namespace BookStore.Web.Areas.Admin.Controllers
             {
                 return View(book);
             }
+        }
+
+        /// <summary>
+        /// This shows a page allowing an administrator to create a book
+        /// </summary>
+        /// <returns>A ViewResult containing a form used to add a new book into the repository</returns>
+        public ViewResult Create()
+        {
+            return View(new Book());
+        }
+
+        /// <summary>
+        /// This adds a book into the repository or redirects to the form page
+        /// if at least one data is invalid
+        /// </summary>
+        /// <param name="book">This is the book created</param>
+        /// <returns>A ActionResult that is either a ViewResult or RedirectToRouteResult</returns>
+        [HttpPost]
+        public async Task<ActionResult> Create(Book book, HttpPostedFileBase file)
+        {
+            if (ModelState.IsValid && file != null)
+            {
+                // saves cover image to a server
+                String fileName = book.ISBN + Path.GetExtension(file.FileName);
+                String path = Path.Combine(Server.MapPath("~/Images"), fileName);
+                file.SaveAs(path);
+                book.CoverUrl = "/Images/" + fileName;
+
+                bookRepository.Add(book);
+                await bookRepository.Save();
+                TempData["Message"] = String.Format("{0} has been saved", book.Name);
+                return RedirectToAction("Index");
+            } else
+            {
+                return View(book);
+            }
+        }
+
+        /// <summary>
+        /// This deletes a selected book from the book repository
+        /// </summary>
+        /// <param name="bookId">This is id of the selected book</param>
+        /// <returns>A RedirectToRouteResult that redirects to the index page</returns>
+        [HttpPost]
+        public async Task<RedirectToRouteResult> Delete(int bookId)
+        {
+            Book selectedBook = await bookRepository.FindById(bookId);
+            Book deletedBook = bookRepository.Delete(selectedBook);
+
+            // deletes cover image of the book from server
+            String filePath = Request.MapPath(selectedBook.CoverUrl);
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+
+            await bookRepository.Save();
+            TempData["message"] = String.Format("{0} has been deleted", deletedBook.Name);
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -133,6 +133,8 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\BookManage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\BookManage\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\BookForm.cshtml" />
+    <Content Include="Areas\Admin\Views\BookManage\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Images\0137081898.jpg" />
     <Content Include="Images\0321356683.jpg" />

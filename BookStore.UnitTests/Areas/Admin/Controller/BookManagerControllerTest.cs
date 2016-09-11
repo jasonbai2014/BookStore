@@ -10,6 +10,7 @@ using System.Data.Entity;
 using BookStore.Web.Areas.Admin.Controllers;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web;
 
 namespace BookStore.UnitTests.Areas.Admin.Controller
 {
@@ -19,6 +20,8 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
         private BookRepository bookRepo;
 
         private Mock<StoreDbContext> mockContext;
+
+        private Mock<DbSet<Book>> mockSet;
 
         [TestInitialize]
         public void TestInitializer()
@@ -39,7 +42,7 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
                 new Book {BookID = 12, Name = "1000 Places to See", Category = "Travel", Price = 23.95M }
             }.AsQueryable();
 
-            Mock<DbSet<Book>> mockSet = new Mock<DbSet<Book>>();
+            mockSet = new Mock<DbSet<Book>>();
             mockSet.As<IDbAsyncEnumerable<Book>>().Setup(m => m.GetAsyncEnumerator())
                 .Returns(new TestDbAsyncEnumerator<Book>(data.GetEnumerator()));
 
@@ -95,6 +98,32 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
             ctrl.ModelState.AddModelError("error", "error message");
             ActionResult result = await ctrl.Edit(book);
 
+            mockContext.Verify(x => x.SaveChangesAsync(), Times.Never);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public async Task Cannot_Add_Book_With_Invalid_Data()
+        {
+            BookManageController ctrl = new BookManageController(bookRepo);
+            Book book = new Book { Name = "C# programming" };
+            ctrl.ModelState.AddModelError("error", "error message");
+            Mock<HttpPostedFileBase> mockFile = new Mock<HttpPostedFileBase>();
+
+            ActionResult result = await ctrl.Create(book, mockFile.Object);
+            mockSet.Verify(x => x.Add(book), Times.Never);
+            mockContext.Verify(x => x.SaveChangesAsync(), Times.Never);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public async Task Cannot_Add_book_With_No_Pic()
+        {
+            BookManageController ctrl = new BookManageController(bookRepo);
+            Book book = new Book { Name = "C# programming" };
+
+            ActionResult result = await ctrl.Create(book, null);
+            mockSet.Verify(x => x.Add(book), Times.Never);
             mockContext.Verify(x => x.SaveChangesAsync(), Times.Never);
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }

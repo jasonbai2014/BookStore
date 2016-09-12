@@ -15,10 +15,5 @@ namespace BookStore.Web.Models
         /// This is an error message
         /// </summary>
         public String Message { get; set; }
-
-        public static explicit operator Error(ViewResult v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

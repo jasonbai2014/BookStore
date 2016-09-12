@@ -33,7 +33,24 @@ namespace BookStore.Web.Infrastructure
         public static UserManager Create(IdentityFactoryOptions<UserManager> options, IOwinContext context)
         {
             StoreDbContext dbContext = context.Get<StoreDbContext>();
-            return new UserManager(new UserStore<User>(dbContext));
+            UserManager manager = new UserManager(new UserStore<User>(dbContext));
+
+            manager.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 12,
+                RequireNonLetterOrDigit = true,
+                RequireDigit = true,
+                RequireLowercase = true,
+                RequireUppercase = true
+            };
+
+            manager.UserValidator = new UserValidator<User>(manager)
+            {
+               AllowOnlyAlphanumericUserNames = true,
+               RequireUniqueEmail = true
+            };
+
+            return manager;
         }
     }
 }

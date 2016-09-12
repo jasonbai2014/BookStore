@@ -74,6 +74,13 @@ span.glyphicon-shopping-cart {
     border: 1px solid red;
 }
 
+div.validation-summary-errors ul {
+    color: #e74949;
+    font-weight: bold;
+    list-style: none;
+    padding-left: 0px;
+}
+
 /* Make search box in the middle of the nav bar */
 @media (min-width: 768px) {
     .navbar-form.navbar-center {

@@ -144,5 +144,20 @@ namespace BookStore.Web.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+        /// <summary>
+        /// This release both managed and unmanaged resources
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; 
+        /// false to release only unmanaged resources</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                bookRepository.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
     }
 }

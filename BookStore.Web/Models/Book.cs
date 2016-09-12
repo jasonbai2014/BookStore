@@ -21,6 +21,7 @@ namespace BookStore.Web.Models
         /// This is an url pointing to a location on the server where cover
         /// image of the book is kept
         /// </summary>
+        [DefaultValue("/Images/default.jpg")]
         public String CoverUrl { get; set; }
 
         /// <summary>
@@ -102,5 +103,9 @@ namespace BookStore.Web.Models
         /// </summary>
         public virtual ICollection<Review> Reviews { get; set; }
 
+        /// <summary>
+        /// This is a list orders for this book
+        /// </summary>
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

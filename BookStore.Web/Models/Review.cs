@@ -24,6 +24,7 @@ namespace BookStore.Web.Models
         /// <summary>
         /// This is reviewer name
         /// </summary>
+        [StringLength(256)]
         public String Reviewer { get; set; }
 
         /// <summary>
@@ -34,12 +35,12 @@ namespace BookStore.Web.Models
         /// <summary>
         /// This is review text
         /// </summary>
+        [StringLength(1200, ErrorMessage = "Please make sure less than 1200 characters")]
         public String ReviewText { get; set; }
 
         /// <summary>
         /// This is the date this review is posted
         /// </summary>
-        [DataType(DataType.Date)]
         public DateTime PostDate { get; set; }
 
         /// <summary>

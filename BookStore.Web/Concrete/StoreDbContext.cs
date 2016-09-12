@@ -1,4 +1,5 @@
 ﻿using BookStore.Web.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,7 +11,7 @@ namespace BookStore.Web.Concrete
     /// <summary>
     /// This is a database context class for this bookstore
     /// </summary>
-    public class StoreDbContext : DbContext
+    public class StoreDbContext : IdentityDbContext<User>
     {
         /// <summary>
         /// This is a constructor of this class
@@ -29,5 +30,25 @@ namespace BookStore.Web.Concrete
         /// This returns a set of reviews for the books 
         /// </summary>
         public virtual DbSet<Review> Reviews { get; set; }
+
+        /// <summary>
+        /// This returns a set of orders for the books
+        /// </summary>
+        public virtual DbSet<Order> Orders { get; set; }
+
+        /// <summary>
+        /// This returns a set of shopping addresses for users
+        /// </summary>
+        public virtual DbSet<ShoppingAddress> Addresses { get; set; }
+
+        /// <summary>
+        /// This creates a bookstore dbcontext instance
+        /// </summary>
+        /// <returns>A dbcontext instance</returns>
+        public static StoreDbContext Create()
+        {
+            return new StoreDbContext();
+        }
+
     }
 }

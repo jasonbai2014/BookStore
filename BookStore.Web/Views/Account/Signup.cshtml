@@ -11,7 +11,8 @@
         @Html.ValidationSummary(false)
         @using (Html.BeginForm())
         {
-            @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+            @Html.AntiForgeryToken();
             foreach (var property in ViewData.ModelMetadata.Properties)
             {
                 <div class="form-group">

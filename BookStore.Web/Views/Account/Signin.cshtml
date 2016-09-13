@@ -8,20 +8,30 @@
 <div class="panel panel-default col-sm-4 col-sm-push-4">
     <div class="panel-body">
         <h2>Sign in</h2>
+        @Html.ValidationSummary(false)
         @using (Html.BeginForm())
         {
-            @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl"/>
+            @Html.AntiForgeryToken();
             foreach (var property in ViewData.ModelMetadata.Properties)
             {
                 <div class="form-group">
                     <label for="@property.PropertyName">@(property.DisplayName ?? property.PropertyName)</label>
-                    @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                    @if (property.PropertyName == "Password")
+                    {
+                        @Html.Password(property.PropertyName, null, new { @class = "form-control" });
+                    }
+                    else
+                    {
+                        @Html.TextBox(property.PropertyName, null, new { @class = "form-control" });
+                    }
+
                     @Html.ValidationMessage(property.PropertyName)
                 </div>
             }
 
             <button class="btn btn-default btn-primary btn-block btn-lg text-center">Sign in</button>
-            @Html.ActionLink("Create your account", "Signup", null,
+            @Html.ActionLink("Create your account", "Signup", new { returnUrl = ViewBag.returnUrl},
                    new { @class = "btn btn-default btn-block btn-lg text-center" })
         }
     </div>

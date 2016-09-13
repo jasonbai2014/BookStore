@@ -90,12 +90,14 @@ namespace BookStore.Web.Controllers
         /// This allows a user to check out items in a cart
         /// </summary>
         /// <returns>A viewresult to show a form for shopping address</returns>
+        [Authorize]
         public ViewResult CheckOut()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public ViewResult CheckOut(Cart cart, ShoppingAddress address)
         {
             if (ModelState.IsValid)

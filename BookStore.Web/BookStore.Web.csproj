@@ -235,9 +235,10 @@
     <Compile Include="Infrastructure\CartModelBinder.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\UserManager.cs" />
-    <Compile Include="Migrations\201609112113570_InitialMigration.cs" />
-    <Compile Include="Migrations\201609112113570_InitialMigration.Designer.cs">
-      <DependentUpon>201609112113570_InitialMigration.cs</DependentUpon>
+    <Compile Include="Infrastructure\UserRoleManager.cs" />
+    <Compile Include="Migrations\201609130108268_addDiscriminatorColumn.cs" />
+    <Compile Include="Migrations\201609130108268_addDiscriminatorColumn.Designer.cs">
+      <DependentUpon>201609130108268_addDiscriminatorColumn.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\SigninInfo.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\ShoppingAddress.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -282,8 +284,8 @@
     <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609112113570_InitialMigration.resx">
-      <DependentUpon>201609112113570_InitialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609130108268_addDiscriminatorColumn.resx">
+      <DependentUpon>201609130108268_addDiscriminatorColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

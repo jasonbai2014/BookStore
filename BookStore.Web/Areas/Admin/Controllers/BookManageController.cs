@@ -14,6 +14,7 @@ namespace BookStore.Web.Areas.Admin.Controllers
     /// <summary>
     /// This class is used by an administrator to manager books
     /// </summary>
+    [Authorize(Roles = "Admin")]
     public class BookManageController : Controller
     {
         /// <summary>

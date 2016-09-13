@@ -17,11 +17,12 @@ namespace BookStore.Web
         {
             app.CreatePerOwinContext<StoreDbContext>(StoreDbContext.Create);
             app.CreatePerOwinContext<UserManager>(UserManager.Create);
+            app.CreatePerOwinContext<UserRoleManager>(UserRoleManager.Create);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login")
+                LoginPath = new PathString("/Account/Signin")
             });
         }
     }

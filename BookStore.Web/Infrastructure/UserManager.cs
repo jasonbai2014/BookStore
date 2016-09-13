@@ -11,10 +11,13 @@ using System.Web;
 
 namespace BookStore.Web.Infrastructure
 {
+    /// <summary>
+    /// This is a class used to manage user accounts
+    /// </summary>
     public class UserManager : UserManager<User>
     {
         /// <summary>
-        /// This is a class used to manage user accounts
+        /// This is a constructor of this class
         /// </summary>
         /// <param name="store">This is user store</param>
         public UserManager(IUserStore<User> store) : base(store)
@@ -38,7 +41,6 @@ namespace BookStore.Web.Infrastructure
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 12,
-                RequireNonLetterOrDigit = true,
                 RequireDigit = true,
                 RequireLowercase = true,
                 RequireUppercase = true

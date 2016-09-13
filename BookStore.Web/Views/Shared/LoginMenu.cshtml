@@ -1,0 +1,18 @@
+﻿@if (HttpContext.Current.User.Identity.IsAuthenticated)
+{
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        @HttpContext.Current.User.Identity.Name <span class="caret"></span>
+    </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Your Orders", "OrderList", "Order", new { area = "" }, null)</li>
+                                    @if (HttpContext.Current.User.IsInRole("Admin"))
+                                    {
+                                        <li>@Html.ActionLink("Management", "Index", "BookManage", new { area = "admin" }, null)</li>
+                                    }
+                                    <li>@Html.ActionLink("Sign Out", "Signout", "Account", new { area = "" }, null)</li>
+                                </ul>
+}
+else
+{
+    @Html.ActionLink("Sign in", "Signin", "Account", null, null)
+}

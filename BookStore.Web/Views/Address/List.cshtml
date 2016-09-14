@@ -23,7 +23,7 @@
                         <li><span>Country: </span>@address.Country</li>
                     </ul>
                     <div>
-                        @Html.ActionLink("Use this address", "ProcessOrder", "Order",
+                        @Html.ActionLink("Use this address", "Confirm", "Order",
                        new { addressId = address.ShoppingAddressID },
                        new { @class= "btn btn-default btn-primary btn-lg" })
                         <button type="submit" class="btn btn-default btn-warning btn-lg">Delete</button>           
@@ -33,7 +33,7 @@
         </div>
     }
     <div>
-        @Html.ActionLink("Use a new address", "AddAddress")
+        @Html.ActionLink("Use a new address", "Add")
     </div>
 </div>
 

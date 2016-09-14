@@ -85,14 +85,14 @@ namespace BookStore.UnitTests.Controller
             RedirectToRouteResult result = await addressCtrl.List("#111111") as RedirectToRouteResult;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual("AddAddress", result.RouteValues["action"]);
+            Assert.AreEqual("Add", result.RouteValues["action"]);
         }
 
         [TestMethod]
         public async Task Can_Add_Valid_Address()
         {
             AddressController addressCtrl = new AddressController(addressRepo);
-            RedirectToRouteResult result = await addressCtrl.AddAddress(new ShoppingAddress
+            RedirectToRouteResult result = await addressCtrl.Add(new ShoppingAddress
             {
                 ShoppingAddressID = 12,
                 UserID = "#939521",
@@ -104,7 +104,7 @@ namespace BookStore.UnitTests.Controller
             }) as RedirectToRouteResult;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual("ProcessOrder", result.RouteValues["action"]);
+            Assert.AreEqual("Confirm", result.RouteValues["action"]);
             Assert.AreEqual("Order", result.RouteValues["controller"]);
             Assert.AreEqual(12, result.RouteValues["addressId"]);
         }
@@ -114,7 +114,7 @@ namespace BookStore.UnitTests.Controller
         {
             AddressController addressCtrl = new AddressController(addressRepo);
             addressCtrl.ModelState.AddModelError("error", "error message");
-            ViewResult result = await addressCtrl.AddAddress(new ShoppingAddress
+            ViewResult result = await addressCtrl.Add(new ShoppingAddress
             {
                 ShoppingAddressID = 11,
                 UserID = "#939521",

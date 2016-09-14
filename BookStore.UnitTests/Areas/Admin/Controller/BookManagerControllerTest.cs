@@ -89,7 +89,7 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
             Book book = new Book { Name = "C# programming" };
             ActionResult result = await ctrl.Edit(book);
 
-            mockContext.Verify(x => x.SetModified(book), Times.Once);
+            mockContext.Verify(x => x.SetModified(It.IsAny<Book>()), Times.Once);
             mockContext.Verify(x => x.SaveChangesAsync(), Times.Once);
             Assert.IsNotInstanceOfType(result, typeof(ViewResult));
         }
@@ -102,7 +102,7 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
             ctrl.ModelState.AddModelError("error", "error message");
             ActionResult result = await ctrl.Edit(book);
 
-            mockContext.Verify(x => x.SetModified(book), Times.Never);
+            mockContext.Verify(x => x.SetModified(It.IsAny<Book>()), Times.Never);
             mockContext.Verify(x => x.SaveChangesAsync(), Times.Never);
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
@@ -116,7 +116,7 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
             Mock<HttpPostedFileBase> mockFile = new Mock<HttpPostedFileBase>();
 
             ActionResult result = await ctrl.Create(book, mockFile.Object);
-            mockSet.Verify(x => x.Add(book), Times.Never);
+            mockSet.Verify(x => x.Add(It.IsAny<Book>()), Times.Never);
             mockContext.Verify(x => x.SaveChangesAsync(), Times.Never);
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
@@ -128,7 +128,7 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
             Book book = new Book { Name = "C# programming" };
 
             ActionResult result = await ctrl.Create(book, null);
-            mockSet.Verify(x => x.Add(book), Times.Never);
+            mockSet.Verify(x => x.Add(It.IsAny<Book>()), Times.Never);
             mockContext.Verify(x => x.SaveChangesAsync(), Times.Never);
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }

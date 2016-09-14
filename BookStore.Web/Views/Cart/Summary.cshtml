@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                     @foreach (LineItem item in Model.Items)
-                {
+                    {
                         <tr>
                             <td class="text-center">@item.Book.Name</td>
                             <td class="text-center">@item.Book.Price.ToString("c")</td>
@@ -36,17 +36,15 @@
                                 <span class="price-label">@((item.Book.Price * item.Quantity).ToString("c"))</span>
                             </td>
                             <td>
-                                <a>
-                                    @Html.ActionLink("Remove", "RemoveFromCart", "Cart",
-                          new { bookId = item.Book.BookID }, new { @class = "btn btn-warning btn-xs" })
-                                </a>
+                                @Html.ActionLink("Remove", "RemoveFromCart", "Cart",
+                                new { bookId = item.Book.BookID }, new { @class = "btn btn-warning btn-xs" })
                             </td>
                         </tr>
                     }
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3" class="text-right">Total (@Model.Items.Count Items):</td>
+                        <td colspan="3" class="text-right">Total (@Model.Items.Sum(x => x.Quantity) Items):</td>
                         <td class="text-center">
                             <span class="price-label">@Model.CalculateTotal().ToString("c")</span>
                         </td>

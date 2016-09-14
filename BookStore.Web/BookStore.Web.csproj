@@ -232,6 +232,7 @@
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\NavController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -272,13 +273,16 @@
     <Content Include="Views\Nav\Menu.cshtml" />
     <Content Include="Views\Cart\Summary.cshtml" />
     <Content Include="Views\Cart\Brief.cshtml" />
-    <Content Include="Views\Cart\Completed.cshtml" />
+    <Content Include="Views\Order\Completed.cshtml" />
     <Content Include="Views\Shared\_AccountFormLayout.cshtml" />
     <Content Include="Views\Account\Signin.cshtml" />
     <Content Include="Views\Account\Signup.cshtml" />
     <Content Include="Views\Shared\LoginMenu.cshtml" />
     <Content Include="Views\Address\List.cshtml" />
-    <Content Include="Views\Address\AddAddress.cshtml" />
+    <Content Include="Views\Address\Add.cshtml" />
+    <Content Include="Views\Order\Confirm.cshtml" />
+    <Content Include="Views\Order\List.cshtml" />
+    <Content Include="Views\Order\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

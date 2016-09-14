@@ -43,7 +43,7 @@ namespace BookStore.Web.Controllers
 
             if (addresses.Count() == 0)
             {
-                return RedirectToAction("AddAddress");
+                return RedirectToAction("Add");
             }
 
             return View(addresses);
@@ -53,7 +53,7 @@ namespace BookStore.Web.Controllers
         /// This shows a page that asks user to enter shopping address information
         /// </summary>
         /// <returns></returns>
-        public ViewResult AddAddress()
+        public ViewResult Add()
         {
             return View();
         }
@@ -65,13 +65,13 @@ namespace BookStore.Web.Controllers
         /// <param name="address">This is address information that a user types</param>
         /// <returns>A ViewResult for the address form or redirects to a page for order processing</returns>
         [HttpPost]
-        public async Task<ActionResult> AddAddress(ShoppingAddress address)
+        public async Task<ActionResult> Add(ShoppingAddress address)
         {
             if (ModelState.IsValid)
             {
                 addressRepository.Add(address);
                 await addressRepository.Save();
-                return RedirectToAction("ProcessOrder", "Order", new { addressId = address.ShoppingAddressID });
+                return RedirectToAction("Confirm", "Order", new { addressId = address.ShoppingAddressID });
             }
 
             return View(address);

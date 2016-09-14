@@ -1,0 +1,57 @@
+﻿@using BookStore.Web.Models
+@model IEnumerable<Order>
+
+@{
+    ViewBag.Title = "Order History";
+}
+
+
+<div class="panel panel-default col-sm-4 col-sm-push-4">
+    <div class="panel-body">
+        <h2>Your orders</h2>
+        @if (Model.Count() == 0)
+            {
+            <div class="top-gap-md">No orders to show</div>
+        }
+        else
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Order order in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                @Html.ActionLink(order.Book.Name, "Detail", "Order", new { orderId = order.OrderID }, null)
+                            </td>
+                            <td class="text-center">@order.Date.ToString("MM/dd/yyyy")</td>
+                            <td class="text-center">@order.Status</td>
+                            <td>
+                                @if (order.Status == OrderStatus.Received ||
+                            order.Status == OrderStatus.Processing)
+                                {
+                                    using (Html.BeginForm("Cancel", "Order"))
+                                    {
+                                        <input type="hidden" name="orderId" value="@order.OrderID" />
+                                            <input type="hidden" name="userId" value="@ViewBag.userId" />
+                                            <button type="submit" class="btn btn-warning btn-xs">Cancel</button>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+    
+

@@ -1,0 +1,25 @@
+﻿@model BookStore.Web.Models.Order
+
+@{
+    ViewBag.Title = "OrderDetail";
+}
+
+<div class="col-sm-4 col-sm-push-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">@Model.Book.Name</div>
+        <div class="panel-body">
+            <div class="col-sm-8">
+                <img src="@Model.Book.CoverUrl" class="img-responsive" />
+            </div>
+            <div class="col-xs-12 top-gap-sm">
+                <ul class="list-unstyled">
+                    <li><span>Quantity: </span>@Model.Quantity</li>
+                    <li><span>Order date: </span>@Model.Date</li>
+                    <li><span>Status: </span>@Model.Status</li>
+                    <li><span>Total price: </span>@Model.TotalPrice.ToString("c")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

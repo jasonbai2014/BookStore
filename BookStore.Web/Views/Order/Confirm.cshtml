@@ -1,0 +1,53 @@
+﻿@using BookStore.Web.Models
+@model BookStore.Web.Models.Cart
+
+@{
+        ViewBag.Title = "Confirm Order(s)";
+}
+
+<div class="col-sm-4 col-sm-push-4">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h2>You have ordered: </h2>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (LineItem item in Model.Items)
+                    {
+                        <tr>
+                            <td class="text-center">@item.Book.Name</td>
+                            <td class="text-center">@item.Quantity</td>
+                            <td class="text-center">
+                                <span class="price-label">@((item.Book.Price * item.Quantity).ToString("c"))</span>
+                            </td>
+                        </tr>
+                     }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" class="text-right">Total (@Model.Items.Sum(x => x.Quantity) Items):</td>
+                        <td class="text-center">
+                            <span class="price-label">@Model.CalculateTotal().ToString("c")</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            @using (Html.BeginForm("Process", "Order"))
+            {
+                <input type="hidden" name="addressId" value="@ViewBag.addressId" />
+                <div class="text-center">
+                    <button type="submit" class="btn btn-default btn-primary btn-lg btn-block">Confirm</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

@@ -1,10 +1,13 @@
-﻿@if (HttpContext.Current.User.Identity.IsAuthenticated)
+﻿@using Microsoft.AspNet.Identity;
+
+@if (HttpContext.Current.User.Identity.IsAuthenticated)
 {
     <a class="dropdown-toggle" data-toggle="dropdown">
         @HttpContext.Current.User.Identity.Name <span class="caret"></span>
     </a>
                                 <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("Your Orders", "OrderList", "Order", new { area = "" }, null)</li>
+                                    <li>@Html.ActionLink("Your Orders", "List", "Order", 
+                                       new { area = "", userId = @HttpContext.Current.User.Identity.GetUserId() }, null)</li>
                                     @if (HttpContext.Current.User.IsInRole("Admin"))
                                     {
                                         <li>@Html.ActionLink("Management", "Index", "BookManage", new { area = "admin" }, null)</li>

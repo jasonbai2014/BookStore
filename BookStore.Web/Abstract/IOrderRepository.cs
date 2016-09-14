@@ -15,6 +15,13 @@ namespace BookStore.Web.Abstract
     public interface IOrderRepository : IRepository<Order>
     {
         /// <summary>
+        /// This can find orders for a user by using the ID
+        /// </summary>
+        /// <param name="userId">This is a user ID</param>
+        /// <returns>A list of orders</returns>
+        Task<List<Order>> FindOrdersByUserIDAsync(string userId);
+
+        /// <summary>
         /// This gets all orders in a repository
         /// </summary>
         /// <returns>A set of orders</returns>

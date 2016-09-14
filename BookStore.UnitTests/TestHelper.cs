@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using BookStore.Web.Models;
 
 /// <summary>
 /// This is used for async method tests
@@ -81,10 +82,16 @@ namespace BookStore.UnitTests
     internal class TestDbAsyncEnumerator<T> : IDbAsyncEnumerator<T>
     {
         private readonly IEnumerator<T> _inner;
+        private IEnumerator<User> enumerator;
 
         public TestDbAsyncEnumerator(IEnumerator<T> inner)
         {
             _inner = inner;
+        }
+
+        public TestDbAsyncEnumerator(IEnumerator<User> enumerator)
+        {
+            this.enumerator = enumerator;
         }
 
         public void Dispose()

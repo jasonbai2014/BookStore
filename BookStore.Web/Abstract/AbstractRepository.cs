@@ -52,8 +52,8 @@ namespace BookStore.Web.Abstract
         /// This finds an entity by its id
         /// </summary>
         /// <param name="id">This is an entity's id</param>
-        /// <returns>A task that contains the found entity or null</returns>
-        public abstract Task<TEntity> FindById(int id);
+        /// <returns>The found entity or null</returns>
+        public abstract TEntity FindById(int id);
 
         /// <summary>
         /// This saves changes made on a repository

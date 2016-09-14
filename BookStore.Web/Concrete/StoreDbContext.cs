@@ -42,6 +42,15 @@ namespace BookStore.Web.Concrete
         public virtual DbSet<ShoppingAddress> Addresses { get; set; }
 
         /// <summary>
+        /// This edits an entity in a database
+        /// </summary>
+        /// <param name="entity">This is an edited entity</param>
+        public virtual void SetModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+
+        /// <summary>
         /// This creates a bookstore dbcontext instance
         /// </summary>
         /// <returns>A dbcontext instance</returns>

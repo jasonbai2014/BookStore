@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace BookStore.Web.Controllers
 {
@@ -46,9 +47,9 @@ namespace BookStore.Web.Controllers
         /// <param name="bookId">This is id of the book</param>
         /// <param name="quantity">This is quantity of the book</param>
         /// <returns>A routeresult that redirects to the summary action</returns>
-        public async Task<RedirectToRouteResult> AddToCart(Cart cart, int bookId, int quantity)
+        public RedirectToRouteResult AddToCart(Cart cart, int bookId, int quantity)
         {
-            Book book = await bookRepository.FindById(bookId);
+            Book book = bookRepository.FindById(bookId);
 
             if (book != null)
             {
@@ -64,9 +65,9 @@ namespace BookStore.Web.Controllers
         /// <param name="cart">This is the cart</param>
         /// <param name="bookId">This is id of the book</param>
         /// <returns>A routeresult that redirects to the summary action</returns>
-        public async Task<RedirectToRouteResult> RemoveFromCart(Cart cart, int bookId)
+        public RedirectToRouteResult RemoveFromCart(Cart cart, int bookId)
         {
-            Book book = await bookRepository.FindById(bookId);
+            Book book = bookRepository.FindById(bookId);
 
             if (book != null)
             {
@@ -91,25 +92,9 @@ namespace BookStore.Web.Controllers
         /// </summary>
         /// <returns>A viewresult to show a form for shopping address</returns>
         [Authorize]
-        public ViewResult CheckOut()
+        public RedirectToRouteResult CheckOut(String userId)
         {
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ViewResult CheckOut(Cart cart, ShoppingAddress address)
-        {
-            if (ModelState.IsValid)
-            {
-                // TO-DO: need to add more codes to deal with order processing here
-                cart.clear();
-                return View("Completed");
-            }
-            else
-            {
-                return View(address);
-            }
+            return RedirectToAction("List", "Address", new { userId = userId });
         }
 
         /// <summary>

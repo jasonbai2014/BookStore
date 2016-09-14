@@ -29,7 +29,7 @@ namespace BookStore.Web.Models
         /// <summary>
         /// This is status of this order
         /// </summary>
-        public String Status { get; set; }
+        public OrderStatus Status { get; set; }
 
         /// <summary>
         /// This is total price of this order
@@ -55,5 +55,16 @@ namespace BookStore.Web.Models
         /// This is a book ordered
         /// </summary>
         public virtual Book Book { get; set; }
+    }
+
+    /// <summary>
+    /// This enum type is for order statuses
+    /// </summary>
+    public enum OrderStatus
+    {
+        Received = 0,
+        Processing = 1,
+        Shipped = 2,
+        Cancelled = 3
     }
 }

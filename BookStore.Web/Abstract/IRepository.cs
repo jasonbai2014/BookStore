@@ -34,7 +34,7 @@ namespace BookStore.Web.Abstract
         /// </summary>
         /// <param name="id">This is an entity's id</param>
         /// <returns>The found entity</returns>
-        Task<TEntity> FindById(int id);
+        TEntity FindById(int id);
 
         /// <summary>
         /// This saves changes made on a repository

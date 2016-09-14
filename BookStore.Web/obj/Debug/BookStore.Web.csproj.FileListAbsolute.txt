@@ -61,5 +61,5 @@ C:\qing bai\Projects\BookStore\BookStore.Web\bin\System.Web.Mvc.xml
 C:\qing bai\Projects\BookStore\BookStore.Web\obj\Debug\BookStore.Web.dll
 C:\qing bai\Projects\BookStore\BookStore.Web\obj\Debug\BookStore.Web.pdb
 C:\qing bai\Projects\BookStore\BookStore.Web\obj\Debug\BookStore.Web.csprojResolveAssemblyReference.cache
-C:\qing bai\Projects\BookStore\BookStore.Web\obj\Debug\BookStore.Web.Migrations.addDiscriminatorColumn.resources
+C:\qing bai\Projects\BookStore\BookStore.Web\obj\Debug\BookStore.Web.Migrations.AddDiscriminatorColumn.resources
 C:\qing bai\Projects\BookStore\BookStore.Web\obj\Debug\BookStore.Web.csproj.GenerateResource.Cache

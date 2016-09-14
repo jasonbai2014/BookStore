@@ -72,7 +72,7 @@ namespace BookStore.Web.Models
 
             foreach(LineItem item in items)
             {
-                total += item.Book.Price * item.Quantity;
+                total += item.LineItemPrice;
             }
 
             return total;
@@ -93,5 +93,10 @@ namespace BookStore.Web.Models
         /// This is number of the book ordered
         /// </summary>
         public int Quantity { get; set; }
+
+        /// <summary>
+        /// This is the total price for this line
+        /// </summary>
+        public decimal LineItemPrice { get { return Book.Price * Quantity; } }
     }
 }

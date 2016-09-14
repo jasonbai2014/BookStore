@@ -74,6 +74,7 @@ span.glyphicon-shopping-cart {
     border: 1px solid red;
 }
 
+/* This is a style for summary errors */
 div.validation-summary-errors ul {
     color: #e74949;
     font-weight: bold;

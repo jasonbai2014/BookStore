@@ -52,9 +52,12 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
             mockSet.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(data.Expression);
             mockSet.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            //mockSet.Setup(m => m.Find(It.IsAny<object[]>())).
+            //    Returns<object[]>(x => data.FirstOrDefault(b => b.BookID == (int)x[0]));
 
             mockContext = new Mock<StoreDbContext>();
             mockContext.Setup(x => x.Books).Returns(mockSet.Object);
+            mockContext.Setup(x => x.SetModified(It.IsAny<Object>())).Verifiable();
 
             bookRepo = new BookRepository(mockContext.Object);
         }
@@ -86,6 +89,7 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
             Book book = new Book { Name = "C# programming" };
             ActionResult result = await ctrl.Edit(book);
 
+            mockContext.Verify(x => x.SetModified(book), Times.Once);
             mockContext.Verify(x => x.SaveChangesAsync(), Times.Once);
             Assert.IsNotInstanceOfType(result, typeof(ViewResult));
         }
@@ -98,6 +102,7 @@ namespace BookStore.UnitTests.Areas.Admin.Controller
             ctrl.ModelState.AddModelError("error", "error message");
             ActionResult result = await ctrl.Edit(book);
 
+            mockContext.Verify(x => x.SetModified(book), Times.Never);
             mockContext.Verify(x => x.SaveChangesAsync(), Times.Never);
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }

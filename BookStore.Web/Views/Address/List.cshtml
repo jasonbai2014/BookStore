@@ -1,0 +1,39 @@
+﻿@using BookStore.Web.Models
+@using Microsoft.AspNet.Identity;
+@model IEnumerable<ShoppingAddress>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<div class="col-sm-4 col-sm-push-4">
+    @foreach(ShoppingAddress address in Model)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @using (Html.BeginForm("DeleteAddress", "Address"))
+                {
+                    <input type="hidden" name="addressId" value="@address.ShoppingAddressID"/>
+                    <ul class="list-unstyled">
+                        <li><span>Name: </span>@address.Name</li>
+                        <li><span>Address Line: </span>@address.Line1</li>
+                        <li><span>City: </span>@address.City</li>
+                        <li><span>State: </span>@address.State</li>
+                        <li><span>Zip Code: </span>@address.Zip</li>
+                        <li><span>Country: </span>@address.Country</li>
+                    </ul>
+                    <div>
+                        @Html.ActionLink("Use this address", "ProcessOrder", "Order",
+                       new { addressId = address.ShoppingAddressID },
+                       new { @class= "btn btn-default btn-primary btn-lg" })
+                        <button type="submit" class="btn btn-default btn-warning btn-lg">Delete</button>           
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    <div>
+        @Html.ActionLink("Use a new address", "AddAddress")
+    </div>
+</div>
+

@@ -48,17 +48,17 @@ namespace BookStore.Web.Concrete
         /// <param name="book">This is an edited book</param>
         public override void Edit(Book book)
         {
-            DbContext.Entry(book).State = EntityState.Modified;
+            DbContext.SetModified(book);
         }
 
         /// <summary>
         /// This finds a book by its id
         /// </summary>
         /// <param name="id">This is a book's id</param>
-        /// <returns>A task that contains the found book or null</returns>
-        public async override Task<Book> FindById(int id)
+        /// <returns>The found book or null</returns>
+        public override Book FindById(int id)
         {
-            return await DbContext.Books.FindAsync(id);
+            return DbContext.Books.Find(id);
         }
 
         /// <summary>

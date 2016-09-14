@@ -7,13 +7,13 @@ namespace BookStore.Web.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class addDiscriminatorColumn : IMigrationMetadata
+    public sealed partial class AddDiscriminatorColumn : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addDiscriminatorColumn));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddDiscriminatorColumn));
         
         string IMigrationMetadata.Id
         {
-            get { return "201609130108268_addDiscriminatorColumn"; }
+            get { return "201609132311260_AddDiscriminatorColumn"; }
         }
         
         string IMigrationMetadata.Source

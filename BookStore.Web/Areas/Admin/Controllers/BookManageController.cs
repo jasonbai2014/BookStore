@@ -59,9 +59,9 @@ namespace BookStore.Web.Areas.Admin.Controllers
         /// </summary>
         /// <param name="bookId">This is id of the selected book</param>
         /// <returns>A ViewResult containing a form for editing book information</returns>
-        public async Task<ViewResult> Edit(int bookId)
+        public ViewResult Edit(int bookId)
         {
-            Book book = await bookRepository.FindById(bookId);
+            Book book = bookRepository.FindById(bookId);
             return View(book);
         }
 
@@ -130,7 +130,7 @@ namespace BookStore.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<RedirectToRouteResult> Delete(int bookId)
         {
-            Book selectedBook = await bookRepository.FindById(bookId);
+            Book selectedBook = bookRepository.FindById(bookId);
             Book deletedBook = bookRepository.Delete(selectedBook);
 
             // deletes cover image of the book from server

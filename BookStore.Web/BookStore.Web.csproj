@@ -214,16 +214,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractRepository.cs" />
+    <Compile Include="Abstract\IAddressRepository.cs" />
     <Compile Include="Abstract\IBookRepository.cs" />
+    <Compile Include="Abstract\IOrderRepository.cs" />
     <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BookManageController.cs" />
+    <Compile Include="Concrete\AddressRepository.cs" />
     <Compile Include="Concrete\BookRepository.cs" />
+    <Compile Include="Concrete\OrderRepository.cs" />
     <Compile Include="Concrete\StoreDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\NavController.cs" />
@@ -236,9 +241,9 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\UserManager.cs" />
     <Compile Include="Infrastructure\UserRoleManager.cs" />
-    <Compile Include="Migrations\201609130108268_addDiscriminatorColumn.cs" />
-    <Compile Include="Migrations\201609130108268_addDiscriminatorColumn.Designer.cs">
-      <DependentUpon>201609130108268_addDiscriminatorColumn.cs</DependentUpon>
+    <Compile Include="Migrations\201609132311260_AddDiscriminatorColumn.cs" />
+    <Compile Include="Migrations\201609132311260_AddDiscriminatorColumn.Designer.cs">
+      <DependentUpon>201609132311260_AddDiscriminatorColumn.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\SigninInfo.cs" />
@@ -267,12 +272,13 @@
     <Content Include="Views\Nav\Menu.cshtml" />
     <Content Include="Views\Cart\Summary.cshtml" />
     <Content Include="Views\Cart\Brief.cshtml" />
-    <Content Include="Views\Cart\CheckOut.cshtml" />
     <Content Include="Views\Cart\Completed.cshtml" />
     <Content Include="Views\Shared\_AccountFormLayout.cshtml" />
     <Content Include="Views\Account\Signin.cshtml" />
     <Content Include="Views\Account\Signup.cshtml" />
     <Content Include="Views\Shared\LoginMenu.cshtml" />
+    <Content Include="Views\Address\List.cshtml" />
+    <Content Include="Views\Address\AddAddress.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -285,8 +291,8 @@
     <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609130108268_addDiscriminatorColumn.resx">
-      <DependentUpon>201609130108268_addDiscriminatorColumn.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609132311260_AddDiscriminatorColumn.resx">
+      <DependentUpon>201609132311260_AddDiscriminatorColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

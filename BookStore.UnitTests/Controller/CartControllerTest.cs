@@ -35,13 +35,12 @@ namespace BookStore.UnitTests.Controller
 
             Mock<DbSet<Book>> mockSet = new Mock<DbSet<Book>>();
 
-            mockSet.As<IDbAsyncEnumerable<Book>>().Setup(m => m.GetAsyncEnumerator())
-                .Returns(new TestDbAsyncEnumerator<Book>(data.GetEnumerator()));
-            mockSet.As<IQueryable<Book>>().Setup(m => m.Provider)
-                .Returns(new TestDbAsyncQueryProvider<Book>(data.Provider));
+            mockSet.As<IQueryable<Book>>().Setup(m => m.Provider).Returns(data.Provider);
             mockSet.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(data.Expression);
             mockSet.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            mockSet.Setup(m => m.Find(It.IsAny<object[]>())).
+                Returns<object[]>(x => data.FirstOrDefault(b => b.BookID == (int)x[0]));
 
             Mock<StoreDbContext> mockContext = new Mock<StoreDbContext>();
             mockContext.Setup(x => x.Books).Returns(mockSet.Object);
@@ -70,32 +69,41 @@ namespace BookStore.UnitTests.Controller
         }
 
         [TestMethod]
-        public void Can_Checkout()
+        public void Can_Add_To_Cart()
         {
             CartController cartCtrl = new CartController(bookRepo);
             Cart cart = new Cart();
-            cart.Add(new Book { BookID = 6, Name = "Road Trip", Category = "Travel", Price = 18.0M }, 1);
-            cart.Add(new Book { BookID = 9, Name = "Web API", Category = "Programming", Price = 52.5M }, 1);
+            RedirectToRouteResult result = cartCtrl.AddToCart(cart, 2, 3);
 
-            ViewResult result = cartCtrl.CheckOut(cart, new ShoppingAddress());
-
-            Assert.AreEqual(true, result.ViewData.ModelState.IsValid);
-            Assert.AreEqual("Completed", result.ViewName);
-            Assert.AreEqual(0, cart.Items.Count);
+            Assert.AreEqual("Summary", result.RouteValues["action"]);
+            Assert.AreEqual(2, cart.Items[0].Book.BookID);
+            Assert.AreEqual(3, cart.Items[0].Quantity);
         }
 
         [TestMethod]
-        public void Cannot_Checkout_With_Invalid_Address()
+        public void Can_Remove_From_Cart()
         {
             CartController cartCtrl = new CartController(bookRepo);
             Cart cart = new Cart();
-            cart.Add(new Book { BookID = 3, Name = "America History", Category = "History", Price = 21.8M }, 3);
-            cartCtrl.ModelState.AddModelError("error", "Invalid address");
+            cart.Add(new Book { BookID = 2, Name = "Star Wars", Category = "Comics", Price = 8.92M }, 2);
+            cart.Add(new Book { BookID = 8, Name = "Web development", Category = "Programming", Price = 20.2M }, 1);
+            RedirectToRouteResult result = cartCtrl.RemoveFromCart(cart, 2);
 
-            ViewResult result = cartCtrl.CheckOut(cart, new ShoppingAddress());
-            Assert.AreEqual(false, result.ViewData.ModelState.IsValid);
-            Assert.AreEqual(1, cart.Items.Count);
-            Assert.AreEqual("", result.ViewName);
+            Assert.AreEqual(1, cart.Items.Count());
+            Assert.AreEqual("Summary", result.RouteValues["action"]);
+            Assert.AreEqual("Web development", (string)cart.Items[0].Book.Name);
+            Assert.AreEqual(1, cart.Items[0].Quantity);
+        }
+
+        [TestMethod]
+        public void Can_Checkout()
+        {
+            CartController cartCtrl = new CartController(bookRepo);
+            RedirectToRouteResult result = cartCtrl.CheckOut("wuehfuw3838yy28r3");
+
+            Assert.AreEqual("List", result.RouteValues["action"]);
+            Assert.AreEqual("Address", result.RouteValues["controller"]);
+            Assert.AreEqual("wuehfuw3838yy28r3", result.RouteValues["userId"]);
         }
     }
 }

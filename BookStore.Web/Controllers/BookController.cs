@@ -76,9 +76,9 @@ namespace BookStore.Web.Controllers
         /// </summary>
         /// <param name="bookId">This is the ID of the required book</param>
         /// <returns>A view result to show details of the book</returns>
-        public async Task<ViewResult> Detail(int bookId)
+        public ViewResult Detail(int bookId)
         {
-            Book selectedBook = await this.bookRepository.FindById(bookId);
+            Book selectedBook = this.bookRepository.FindById(bookId);
 
             if (selectedBook == null)
             {

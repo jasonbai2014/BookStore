@@ -45,6 +45,8 @@ namespace BookStore.UnitTests.Controller
             mockSet.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(data.Expression);
             mockSet.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            mockSet.Setup(m => m.Find(It.IsAny<object[]>())).
+                Returns<object[]>(x => data.FirstOrDefault(b => b.BookID == (int)x[0]));
 
             Mock<StoreDbContext> mockContext = new Mock<StoreDbContext>();
             mockContext.Setup(x => x.Books).Returns(mockSet.Object);
@@ -121,6 +123,30 @@ namespace BookStore.UnitTests.Controller
             Assert.AreEqual("List", result.RouteValues["action"]);
             Assert.AreEqual("Comics", result.RouteValues["category"]);
             Assert.AreEqual("star", result.RouteValues["searchText"]);
+        }
+
+        [TestMethod]
+        public void Can_Show_Book_Details()
+        {
+            BookController bookCtrl = new BookController(bookRepo);
+            Book book1 = (Book)bookCtrl.Detail(3).Model;
+            Book book2 = (Book)bookCtrl.Detail(5).Model;
+            Book book3 = (Book)bookCtrl.Detail(9).Model;
+
+            Assert.AreEqual("America History", book1.Name);
+            Assert.AreEqual("Iron Man", book2.Name);
+            Assert.AreEqual("Web API", book3.Name);
+        }
+
+        [TestMethod]
+        public void Can_Generate_Error_For_Book_Details()
+        {
+            BookController bookCtrl = new BookController(bookRepo);
+            var model = bookCtrl.Detail(12);
+
+            Error error = model.ViewData.Model as Error;
+            Assert.IsNotNull(error);
+            Assert.AreEqual("Can't Find the Book", error.Message);
         }
     }
 }

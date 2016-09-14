@@ -71,8 +71,6 @@ namespace BookStore.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Signin(SigninInfo account, String returnUrl)
         {
-            ModelState.Remove("");
-
             if (ModelState.IsValid)
             {
                 User user = await UserManager.FindAsync(account.Name, account.Password);

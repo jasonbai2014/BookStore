@@ -1,4 +1,5 @@
 ﻿@using BookStore.Web.Models
+@using Microsoft.AspNet.Identity;
 @model BookStore.Web.Models.Cart
 
 @{
@@ -56,7 +57,9 @@
 
             <div class="text-center">
                 @Html.ActionLink("Continue shopping", "List", "Book", null, new { @class = "btn btn-primary" })
-                @Html.ActionLink("Proceed to checkout", "CheckOut", "Cart", null, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Proceed to checkout", "CheckOut", "Cart", 
+               new { userId = HttpContext.Current.User.Identity.GetUserId() }, 
+               new { @class = "btn btn-primary" })
             </div>
         }
     </div>

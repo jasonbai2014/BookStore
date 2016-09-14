@@ -160,12 +160,14 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Areas\Admin\Controller\BookManagerControllerTest.cs" />
     <Compile Include="Controller\CartControllerTest.cs" />
+    <Compile Include="Controller\AddressControllerTest.cs" />
     <Compile Include="Helper\HtmlHelperTest.cs" />
     <Compile Include="Controller\BookControllerTest.cs" />
     <Compile Include="Model\CartTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controller\NavControllerTest.cs" />
     <Compile Include="Repository\BookRepositoryTest.cs" />
+    <Compile Include="Repository\AddressRepositoryTest.cs" />
     <Compile Include="TestHelper.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,7 @@ namespace BookStore.Web.Concrete
         /// <summary>
         /// This is a constructor for this class
         /// </summary>
-        /// <param name="dbContext"></param>
+        /// <param name="dbContext">This is a database context instance</param>
         public OrderRepository(StoreDbContext dbContext) : base(dbContext)
         {
         }

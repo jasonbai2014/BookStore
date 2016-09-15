@@ -1,0 +1,25 @@
+﻿@using BookStore.Web.Models
+@model BookStore.Web.Models.ReviewInfo
+
+@{
+    ViewBag.Title = "Customer Reviews";
+}
+
+<div class="col-sm-6">
+    <h2>Customer Reviews</h2>
+
+    @foreach (Review review in Model.Reviews)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.ShowRatingStars(review.Rating)
+                <div>Posted by @review.Reviewer on @review.PostDate.ToString("MM/dd/yyyy")</div>
+                <div>@review.ReviewText</div>
+            </div>
+        </div>
+    }
+
+    @Html.PageLinks(Model.CurPage, Model.TotalPages, x => Url.Action("List",
+    new { page = x, bookId = Model.BookId }))
+</div>
+

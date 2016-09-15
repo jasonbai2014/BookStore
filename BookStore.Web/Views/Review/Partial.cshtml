@@ -1,0 +1,38 @@
+﻿@using BookStore.Web.Models
+@model IEnumerable<Review>
+
+@{
+    Layout = null;
+}
+
+<h3>Customer Reviews</h3>
+@if (Model.Count() == 0)
+{
+    <div class="top-gap-md">No reviews</div>
+}
+else
+{
+    foreach (Review review in Model)
+    {
+        <div class="panel panel-default col-sm-7">
+            <div class="panel-body">
+                @Html.ShowRatingStars(review.Rating)
+                <div>Posted by @review.Reviewer on @review.PostDate.ToString("MM/dd/yyyy")</div>
+                <div>@review.ReviewText</div>
+            </div>
+        </div>
+    }
+}
+
+@if (Model.Count() == 6)
+{
+    <div class="top-gap-sm col-xs-12">
+        @Html.ActionLink("View all reviews", "List", new { bookId = ViewData["bookId"] })
+    </div>
+}
+
+<div class="top-gap-md col-xs-12">
+    @Html.ActionLink("Write a customer review", "Add", new { bookId = ViewData["bookId"] },
+    new { @class = "btn btn-default btn-lg" })
+</div>
+

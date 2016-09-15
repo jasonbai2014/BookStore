@@ -1,0 +1,40 @@
+﻿@model BookStore.Web.Models.Review
+
+@{
+    ViewBag.Title = "Write review";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+
+<div class="col-sm-4 col-sm-push-4">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h2>Your review</h2>
+            @using(Html.BeginForm())
+            {
+                <input type="hidden" name="BookId" value="@ViewBag.bookId" />
+                <input type="hidden" name="Reviewer" value="@HttpContext.Current.User.Identity.Name"/>
+                <input type="hidden" name="PostDate" value="@DateTime.Now"/>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Rating)
+                    @Html.DropDownListFor(x => x.Rating, new List<SelectListItem> { new SelectListItem
+                    { Selected = true, Text = "1", Value = "1"}, new SelectListItem { Text = "2", Value = "2"},
+                    new SelectListItem { Text = "3", Value = "3"}, new SelectListItem { Text = "4", Value = "4"},
+                    new SelectListItem { Text = "5", Value = "5"} }, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Write your review here")
+                    @Html.TextAreaFor(x => x.ReviewText, new { @class = "form-control", rows = 8 })
+                    @Html.ValidationMessage("ReviewText")
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-default btn-primary btn-lg btn-block">Submit</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

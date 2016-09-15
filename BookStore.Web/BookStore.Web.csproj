@@ -233,6 +233,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -247,6 +248,7 @@
       <DependentUpon>201609132311260_AddDiscriminatorColumn.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ReviewInfo.cs" />
     <Compile Include="Models\SigninInfo.cs" />
     <Compile Include="Models\SignupInfo.cs" />
     <Compile Include="Models\Book.cs" />
@@ -283,6 +285,9 @@
     <Content Include="Views\Order\Confirm.cshtml" />
     <Content Include="Views\Order\List.cshtml" />
     <Content Include="Views\Order\Detail.cshtml" />
+    <Content Include="Views\Review\Partial.cshtml" />
+    <Content Include="Views\Review\Add.cshtml" />
+    <Content Include="Views\Review\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

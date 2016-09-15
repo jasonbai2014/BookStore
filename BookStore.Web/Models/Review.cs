@@ -35,6 +35,7 @@ namespace BookStore.Web.Models
         /// <summary>
         /// This is review text
         /// </summary>
+        [Required(ErrorMessage = "Please enter your review")]
         [StringLength(1200, ErrorMessage = "Please make sure less than 1200 characters")]
         public String ReviewText { get; set; }
 

@@ -20,8 +20,10 @@
         @Html.Partial("BookInfo", book)
     }
 
-    @Html.PageLinks(Model.CurPage, Model.TotalPages, x => Url.Action("List", 
-    new { page = x, category = Model.CurCategory, searchText = Model.SearchText }))
+    <div class= @(Model.TotalPages == 1 ? "hidden" : "")>
+        @Html.PageLinks(Model.CurPage, Model.TotalPages, x => Url.Action("List",
+        new { page = x, category = Model.CurCategory, searchText = Model.SearchText }))
+    </div>
 </div>
 
 

@@ -15,11 +15,11 @@
         }
         else
         {
-            <table class="table table-hover">
+            <table class="table table-condensed table-hover">
                 <thead>
                     <tr>
                         <th class="text-center">Name</th>
-                        <th class="text-center">Price</th>
+                        <th class="text-center hidden-xs">Price</th>
                         <th class="text-center">Quantity</th>
                         <th class="text-center">Subtotal</th>
                         <th></th>
@@ -30,7 +30,7 @@
                     {
                         <tr>
                             <td class="text-center">@item.Book.Name</td>
-                            <td class="text-center">@item.Book.Price.ToString("c")</td>
+                            <td class="text-center hidden-xs">@item.Book.Price.ToString("c")</td>
                             <td class="text-center">@item.Quantity</td>
                             <td class="text-center">
                                 <span class="price-label">@((item.Book.Price * item.Quantity).ToString("c"))</span>
@@ -44,7 +44,8 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3" class="text-right">Total (@Model.Items.Sum(x => x.Quantity) Items):</td>
+                        <td class="text-right visible-xs" colspan="2">Total (@Model.Items.Sum(x => x.Quantity) Items):</td>
+                        <td class="text-right hidden-xs" colspan="3">Total (@Model.Items.Sum(x => x.Quantity) Items):</td>
                         <td class="text-center">
                             <span class="price-label">@Model.CalculateTotal().ToString("c")</span>
                         </td>
@@ -53,11 +54,16 @@
                 </tfoot>
             </table>
 
-            <div class="text-center">
-                @Html.ActionLink("Continue shopping", "List", "Book", null, new { @class = "btn btn-primary" })
-                @Html.ActionLink("Proceed to checkout", "CheckOut", "Cart", 
-               new { userId = HttpContext.Current.User.Identity.GetUserId() }, 
-               new { @class = "btn btn-primary" })
+            <div class="col-sm-6 top-gap-sm text-right">
+                @Html.ActionLink("Continue shopping", "List", "Book", null, new
+           {
+               @class = "btn btn-primary visible-lg-inline-block visible-md-inline-block visible-sm-inline-block visible-xs-block"
+           })
+            </div>
+            <div class="col-sm-6 top-gap-sm">
+                @Html.ActionLink("Proceed to checkout", "CheckOut", "Cart",
+                   new { userId = HttpContext.Current.User.Identity.GetUserId() },
+                   new { @class = "btn btn-primary visible-lg-inline-block visible-md-inline-block visible-sm-inline-block visible-xs-block" })
             </div>
         }
     </div>
